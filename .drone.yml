@@ -1,0 +1,19 @@
+kind: pipeline
+type: exec
+name: ccc-ssh
+
+steps:
+- name: build-staging
+  commands:
+    - ls 
+
+  when:
+      # event: push
+      branch: staging
+      
+- name: build-production
+  commands:
+    - ls 
+  when:
+      # event: push
+      branch: master
