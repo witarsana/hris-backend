@@ -190,6 +190,31 @@ Route::middleware('auth:api')->group(function () {
              Route::post('/salarymasterdata','Api\SalaryMasterDataController@store');
              Route::post('/salarymasterdata/{id}/update','Api\SalaryMasterDataController@update');
              Route::delete('/salarymasterdata/{id}','Api\SalaryMasterDataController@destroy');
+
+             #ROUTE SALARY OF ATTENDANCE
+             Route::get('/salaryofattendance','Api\SalaryOfAttendanceController@index');
+             Route::get('/salaryofattendance/filter','Api\SalaryOfAttendanceController@listFilterAndPagine');
+             Route::get('/salaryofattendance/{id}','Api\SalaryOfAttendanceController@show');
+             Route::post('/salaryofattendance','Api\SalaryOfAttendanceController@store');
+             Route::post('/salaryofattendance/{id}/update','Api\SalaryOfAttendanceController@update');
+             Route::delete('/salaryofattendance/{id}','Api\SalaryOfAttendanceController@destroy');
+
+             #ROUTE EMPLOYEE ORGANIZATION 
+             Route::get('/employeeorganization','Api\EmployeeOrganizationController@index');
+             Route::get('/employeeorganization/filter','Api\EmployeeOrganizationController@listFilterAndPagine');
+             Route::get('/employeeorganization/{id}','Api\EmployeeOrganizationController@show');
+             Route::post('/employeeorganization','Api\EmployeeOrganizationController@store');
+             Route::post('/employeeorganization/{id}/update','Api\EmployeeOrganizationController@update');
+             Route::delete('/employeeorganization/{id}','Api\EmployeeOrganizationController@destroy');
+
+             #ROUTE ATTENDANCE 
+             Route::get('/attendance','Api\AttendanceController@index');
+             Route::get('/attendance/filter','Api\AttendanceController@listFilterAndPagine');
+             Route::get('/attendance/{id}','Api\AttendanceController@show');
+             Route::post('/attendance','Api\AttendanceController@store');
+             Route::post('/attendance/{id}/update','Api\AttendanceController@update');
+             Route::delete('/attendance/{id}','Api\AttendanceController@destroy');
+
         });
     });
 });

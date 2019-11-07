@@ -44,7 +44,7 @@ class Install extends Command
             Artisan::call('key:generate');
 
             Artisan::call('migrate:fresh', [
-                '--seed' => true
+                '--seed' => false
             ]);
 
             Artisan::call('passport:install', [
