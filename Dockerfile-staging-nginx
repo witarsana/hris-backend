@@ -1,4 +1,4 @@
-FROM hr-staging AS PHP
+FROM registry.gitlab.com/ccc-hr/core:php-staging AS PHP
 
 FROM nginx:alpine
 
