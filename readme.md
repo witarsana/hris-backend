@@ -1,11 +1,11 @@
-# servhris
+# core
  
  ## Installation
  
  #### Clone this repository
 
 ```cli
-git clone git@gitlab.com:witarsana/servhris.git
+git clone git@gitlab.com:ccc-hr/core.git
 ```
 
 #### Composer
