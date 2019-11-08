@@ -1,0 +1,22 @@
+version: "3.3"
+services:
+  php:
+      image: hr-staging
+      networks:
+        - hr-net
+      # volumes:
+      #   - ./:/var/www/html
+      environment:
+        - SET_CONTAINER_TIMEZONE=true
+        - CONTAINER_TIMEZONE=Asia/Jakarta
+  nginx:
+      image: nginx-php
+      ports:
+        - '80:80'
+        - '443:443'
+      networks:
+        - hr-net
+
+networks:
+  hr-net:
+    driver: bridge

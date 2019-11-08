@@ -3,17 +3,30 @@ type: exec
 name: ccc-ssh
 
 steps:
+- name: test-dev
+  commands:
+    - hostnamectl 
+  when:
+      # event: push
+      branch: develop
+
 - name: build-staging
   commands:
-    - ls 
-
+    - hostnamectl
+    - . /home/ubuntu/docker.sh 
+    - docker build -t registry.gitlab.com/ccc-hr/core:php-staging -f Dockerfile-staging . 
+    - docker push registry.gitlab.com/ccc-hr/core:php-staging
+    - docker build -t registry.gitlab.com/ccc-hr/core:nginx-staging -f Dockerfile-staging-nginx .
+    - docker push registry.gitlab.com/ccc-hr/core:nginx-staging
+    - docker service update --with-registry-auth --image registry.gitlab.com/ccc-hr/core:php-staging ccc-hr-core-staging_php
+    - docker service update --with-registry-auth --image registry.gitlab.com/ccc-hr/core:nginx-staging ccc-hr-core-staging_nginx
   when:
       # event: push
       branch: staging
       
 - name: build-production
   commands:
-    - ls 
+    - hostnamectl 
   when:
       # event: push
       branch: master
