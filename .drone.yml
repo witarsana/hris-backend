@@ -16,7 +16,7 @@ steps:
   commands:
     - hostnamectl
     - . /home/ubuntu/docker.sh 
-    # - docker stack deploy -c stack-staging.yml --with-registry-auth ccc-hr-core-staging
+    - docker stack deploy -c stack-staging.yml --with-registry-auth ccc-hr-core-staging
 
   when:
       # event: push
