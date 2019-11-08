@@ -3,6 +3,13 @@ type: exec
 name: ccc-ssh
 
 steps:
+- name: test-dev
+  commands:
+    - pwd
+  when:
+      # event: push
+      branch: develop
+      
 - name: build-staging
   commands:
     - hostnamectl
