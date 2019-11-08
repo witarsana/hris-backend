@@ -1,4 +1,4 @@
-# servhris
+# core
  
  ## Installation
  
