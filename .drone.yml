@@ -5,7 +5,8 @@ name: ccc-ssh
 steps:
 - name: build-staging
   commands:
-    - docker stack deploy -c stack-staging.yml --with-registry-auth ccc-hr-core-staging
+    - hostnamectl
+    # - docker stack deploy -c stack-staging.yml --with-registry-auth ccc-hr-core-staging
 
   when:
       # event: push
