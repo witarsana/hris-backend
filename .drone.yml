@@ -5,11 +5,12 @@ name: ccc-ssh
 steps:
 - name: test-dev
   commands:
+    - hostnamectl
     - pwd
   when:
       # event: push
       branch: develop
-      
+
 - name: build-staging
   commands:
     - hostnamectl
