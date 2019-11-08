@@ -16,7 +16,12 @@ steps:
   commands:
     - hostnamectl
     - . /home/ubuntu/docker.sh 
-    - docker stack deploy -c stack-staging.yml --with-registry-auth ccc-hr-core-staging
+    - docker build -t registry.gitlab.com/ccc-hr/core:php-staging -f Dockerfile-staging . 
+    - docker push registry.gitlab.com/ccc-hr/core:php-staging
+    - docker build -t registry.gitlab.com/ccc-hr/core:nginx-staging -f Dockerfile-staging-nginx .
+    - docker push registry.gitlab.com/ccc-hr/core:nginx-staging
+    - docker service update --with-registry-auth --image registry.gitlab.com/ccc-hr/core:php-staging ccc-hr-core-staging_php
+    # - docker stack deploy -c stack-staging.yml --with-registry-auth ccc-hr-core-staging
 
   when:
       # event: push
