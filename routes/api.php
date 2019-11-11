@@ -215,6 +215,31 @@ Route::middleware('auth:api')->group(function () {
              Route::post('/attendance/{id}/update','Api\AttendanceController@update');
              Route::delete('/attendance/{id}','Api\AttendanceController@destroy');
 
+             #WORKSHIFT MASTER DATA
+             Route::get('/workshiftmasterdata','Api\WorkshiftMasterDataController@index');
+             Route::get('/workshiftmasterdata/filter','Api\WorkshiftMasterDataController@listFilterAndPagine');
+             Route::get('/workshiftmasterdata/{id}','Api\WorkshiftMasterDataController@show');
+             Route::post('/workshiftmasterdata','Api\WorkshiftMasterDataController@store');
+             Route::post('/workshiftmasterdata/{id}/update','Api\WorkshiftMasterDataController@update');
+             Route::delete('/workshiftmasterdata/{id}','Api\WorkshiftMasterDataController@destroy');
+
+             #WORKSHIFT CHANGE
+             Route::get('/workshiftchange','Api\WorkshiftChangeController@index');
+             Route::get('/workshiftchange/filter','Api\WorkshiftChangeController@listFilterAndPagine');
+             Route::get('/workshiftchange/{id}','Api\WorkshiftChangeController@show');
+             Route::post('/workshiftchange','Api\WorkshiftChangeController@store');
+             Route::post('/workshiftchange/{id}/update','Api\WorkshiftChangeController@update');
+             Route::delete('/workshiftchange/{id}','Api\WorkshiftChangeController@destroy');
+
+             #SPL HEADER
+             Route::get('/splheader','Api\SplHeaderController@index');
+             Route::get('/splheader/filter','Api\SplHeaderController@listFilterAndPagine');
+             Route::get('/splheader/{id}','Api\SplHeaderController@show');
+             Route::post('/splheader','Api\SplHeaderController@store');
+             Route::post('/splheader/{id}/update','Api\SplHeaderController@update');
+             Route::post('/splheader/{id}/approval','Api\SplHeaderController@approval');
+             Route::delete('/splheader/{id}','Api\SplHeaderController@destroy');
+
         });
     });
 });

@@ -67,7 +67,7 @@ class StoreRequest extends FormRequest
             "salary_month_begin" => ["required","integer"],
             "salary_month_end" => ["required","integer"],
             "overtime_status" => ["required","integer"],
-            "shift_status" => ["required","integer"],
+            "shift_code" => ["required","max:50"],
             "npwp_number" => ["max:50"],
             "npwp_activation_date" => ["date"],
             "npwp_status" => ["integer"],

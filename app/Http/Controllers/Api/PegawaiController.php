@@ -193,7 +193,7 @@ class PegawaiController extends Controller
             $oPegawai->salary_month_begin= $request->salary_month_begin;
             $oPegawai->salary_month_end= $request->salary_month_end;
             $oPegawai->overtime_status= $request->overtime_status;
-            $oPegawai->shift_status= $request->shift_status;
+            $oPegawai->shift_code= $request->shift_code;
             $oPegawai->npwp_number= $request->npwp_number;
             $oPegawai->npwp_activation_date= $request->npwp_activation_date;
             $oPegawai->npwp_status= $request->npwp_status;
@@ -344,7 +344,7 @@ class PegawaiController extends Controller
                 $oPegawai->salary_month_begin= $request->salary_month_begin;
                 $oPegawai->salary_month_end= $request->salary_month_end;
                 $oPegawai->overtime_status= $request->overtime_status;
-                $oPegawai->shift_status= $request->shift_status;
+                $oPegawai->shift_code= $request->shift_code;
                 $oPegawai->npwp_number= $request->npwp_number;
                 $oPegawai->npwp_activation_date= $request->npwp_activation_date;
                 $oPegawai->npwp_status= $request->npwp_status;
@@ -435,10 +435,10 @@ class PegawaiController extends Controller
             
             if ($oPegawai) {
                 $path = public_path()."/".$company->company_name."/".$oPegawai->eployee_photo_file."";
-                //return response()->download($path);
-                echo $path;
+                return response()->download($path);
+                //echo $path;
             }else{
-                //return $this->sendError(404, ['error'=> 'Pegawai does not exist.']);
+                return $this->sendError(404, ['error'=> 'Pegawai does not exist.']);
             }
         }catch(\Exception $e){
             return $this->sendError(500, ['error'=> $e]);

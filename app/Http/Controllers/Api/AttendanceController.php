@@ -20,6 +20,20 @@ class AttendanceController extends Controller
     
     }
 
+    public function show($id){
+        try{
+            $oAttendance = Attendance::with('pegawai','user_i','user_e')->find($id);
+
+            if ($oAttendance) {
+                return $this->sendResponse($oAttendance, $this->successStatus);
+            }else{
+                return $this->sendError(404, ['error'=> 'Attendance does not exist.']);
+            }
+        }catch (\Exception $e){
+            return $this->sendError(500, ['error'=> $e]);
+        }
+    }
+
     public function listFilterAndPagine(Request $request){
         $filter = $request->filter;
         $count = $request->count;
