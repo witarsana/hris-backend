@@ -1,0 +1,26 @@
+version: "3.3"
+services:
+ php:
+    image: registry.gitlab.com/ccc-hr/core:prod
+    # ports:
+    #   - '6600:6600'
+    networks:
+      - hr-net
+    volumes:
+      - storage:/var/www/html/storage
+    environment:
+      - SET_CONTAINER_TIMEZONE=true
+      - CONTAINER_TIMEZONE=Asia/Jakarta
+    deploy:
+        # restart_policy:
+        #   condition: on-failure
+        placement:
+          constraints:
+            - node.hostname == hr
+
+volumes:
+  storage:
+
+networks:
+  hr-net:
+    external: true

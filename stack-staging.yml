@@ -1,0 +1,40 @@
+version: "3.3"
+services:
+  php:
+      image: registry.gitlab.com/ccc-hr/core:php-staging
+      networks:
+        - hr-net
+      volumes:
+        - storage:/var/www/html/storage
+        - vendor:/var/www/html/vendor
+      environment:
+        - SET_CONTAINER_TIMEZONE=true
+        - CONTAINER_TIMEZONE=Asia/Jakarta
+      deploy:
+          placement:
+            constraints:
+              - node.hostname == hr
+  nginx:
+      image: registry.gitlab.com/ccc-hr/core:nginx-staging
+      ports:
+        - '6600:80'
+      networks:
+        - hr-net
+      volumes:
+        - storage:/var/www/html/storage
+        - vendor:/var/www/html/vendor
+      environment:
+        - SET_CONTAINER_TIMEZONE=true
+        - CONTAINER_TIMEZONE=Asia/Jakarta
+      deploy:
+          placement:
+            constraints:
+              - node.hostname == hr
+
+volumes:
+  storage:
+  vendor:
+
+networks:
+  hr-net:
+    external: true
