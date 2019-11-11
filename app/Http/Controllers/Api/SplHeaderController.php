@@ -23,7 +23,7 @@ class SplHeaderController extends Controller
 
     public function show($id){
         try{
-            $oSplHeader = SplHeader::with('user_i','user_e')->find($id);
+            $oSplHeader = SplHeader::with('user_i','user_e','spl_detail')->find($id);
 
             if ($oSplHeader) {
                 return $this->sendResponse($oSplHeader, $this->successStatus);

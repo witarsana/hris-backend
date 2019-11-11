@@ -240,6 +240,15 @@ Route::middleware('auth:api')->group(function () {
              Route::post('/splheader/{id}/approval','Api\SplHeaderController@approval');
              Route::delete('/splheader/{id}','Api\SplHeaderController@destroy');
 
+             #SPL DETAIL
+             Route::get('/spldetail','Api\SplDetailController@index');
+             Route::get('/spldetail/filter','Api\SplDetailController@listFilterAndPagine');
+             Route::get('/spldetail/{id}','Api\SplDetailController@show');
+             Route::post('/spldetail','Api\SplDetailController@store');
+             Route::post('/spldetail/{id}/update','Api\SplDetailController@update');
+             Route::post('/spldetail/{id}/approval','Api\SplDetailController@approval');
+             Route::delete('/spldetail/{id}','Api\SplDetailController@destroy');
+
         });
     });
 });
