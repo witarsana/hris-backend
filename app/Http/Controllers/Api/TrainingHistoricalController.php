@@ -12,7 +12,7 @@ class TrainingHistoricalController extends Controller
 {
     public function index(){
         try{
-            $lsTrainingHistorical = TrainingHistorical::with('training_type','user_input','user_edit')->get();            
+            $lsTrainingHistorical = TrainingHistorical::with('training_type','user_i','user_e')->get();            
             return $this->sendResponse($lsTrainingHistorical, $this->successStatus);
         }catch (\Exception $e){
             return $this->sendError(500, ['error'=> $e]);
@@ -27,7 +27,7 @@ class TrainingHistoricalController extends Controller
             try{
                 if (strlen($filter)>0){
                     
-                    $lsTrainingHistorical = TrainingHistorical::with('training_type','user_input','user_edit')
+                    $lsTrainingHistorical = TrainingHistorical::with('training_type','user_i','user_e')
                         ->where('employee_id', '=', ''.$employeeId.'')
                         ->where(function ($query) use($filter) {
                             $query->where('training_name', 'like', '%' . $filter . '%')
@@ -47,7 +47,7 @@ class TrainingHistoricalController extends Controller
                         })->paginate($count);
                                 
                 }else{
-                    $lsTrainingHistorical = TrainingHistorical::with('training_type','user_input','user_edit')->paginate($count);
+                    $lsTrainingHistorical = TrainingHistorical::with('training_type','user_i','user_e')->paginate($count);
                 }
     
                 return $this->sendResponse($lsTrainingHistorical, $this->successStatus);
@@ -61,7 +61,7 @@ class TrainingHistoricalController extends Controller
 
     public function show($id){
         try{
-            $oTrainingHistorical = TrainingHistorical::with('training_type','user_input','user_edit')->find($id);
+            $oTrainingHistorical = TrainingHistorical::with('training_type','user_i','user_e')->find($id);
 
             if ($oTrainingHistorical) {
                 return $this->sendResponse($oTrainingHistorical, $this->successStatus);

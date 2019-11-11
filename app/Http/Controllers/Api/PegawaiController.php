@@ -435,9 +435,10 @@ class PegawaiController extends Controller
             
             if ($oPegawai) {
                 $path = public_path()."/".$company->company_name."/".$oPegawai->eployee_photo_file."";
-                return response()->download($path);
+                //return response()->download($path);
+                echo $path;
             }else{
-                return $this->sendError(404, ['error'=> 'Pegawai does not exist.']);
+                //return $this->sendError(404, ['error'=> 'Pegawai does not exist.']);
             }
         }catch(\Exception $e){
             return $this->sendError(500, ['error'=> $e]);

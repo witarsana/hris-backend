@@ -12,6 +12,7 @@ class Tenant
 
     public function handle($request, Closure $next)
     {
+        
         list($subdomain) = explode('.', $request->getHost(), 2);
         
         $company = Company::where("company_name",$subdomain)->first();
@@ -22,5 +23,6 @@ class Tenant
 
         $this->reconnect($company);
         return $next($request);
+        //dd("test");
     }
 }

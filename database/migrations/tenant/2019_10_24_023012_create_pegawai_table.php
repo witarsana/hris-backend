@@ -53,7 +53,7 @@ class CreatePegawaiTable extends Migration
             $table->integer('salary_month_begin');
             $table->integer('salary_month_end');
             $table->tinyInteger('overtime_status');
-            $table->tinyInteger('shift_status');
+            $table->string('shift_status',50);
             $table->string('npwp_number',50)->nullable();
             $table->date('npwp_activation_date')->nullable();
             $table->tinyInteger('npwp_status')->nullable();
