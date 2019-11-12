@@ -276,7 +276,7 @@ Route::middleware('auth:api')->group(function () {
              Route::post('/nationalholiday/{id}/approval','Api\NationalHolidayController@approval');
              Route::delete('/nationalholiday/{id}','Api\NationalHolidayController@destroy');
 
-             #NATIONAL HOLIDAY
+             #MEDICAL CLAIM EMPLOYEE
              Route::get('/medicalclaimemployee','Api\MedicalClaimEmployeeController@index');
              Route::get('/medicalclaimemployee/filter','Api\MedicalClaimEmployeeController@listFilterAndPagine');
              Route::get('/medicalclaimemployee/{id}','Api\MedicalClaimEmployeeController@show');
@@ -285,6 +285,14 @@ Route::middleware('auth:api')->group(function () {
              Route::post('/medicalclaimemployee/{id}/approval','Api\MedicalClaimEmployeeController@approval');
              Route::delete('/medicalclaimemployee/{id}','Api\MedicalClaimEmployeeController@destroy');
 
+             #MEDICAL CHECK UP EMPLOYEE
+             Route::get('/medicalcheckupemployee','Api\MedicalCheckUpEmployeeController@index');
+             Route::get('/medicalcheckupemployee/filter','Api\MedicalCheckUpEmployeeController@listFilterAndPagine');
+             Route::get('/medicalcheckupemployee/{id}','Api\MedicalCheckUpEmployeeController@show');
+             Route::post('/medicalcheckupemployee','Api\MedicalCheckUpEmployeeController@store');
+             Route::post('/medicalcheckupemployee/{id}/update','Api\MedicalCheckUpEmployeeController@update');
+             Route::post('/medicalcheckupemployee/{id}/approval','Api\MedicalCheckUpEmployeeController@approval');
+             Route::delete('/medicalcheckupemployee/{id}','Api\MedicalCheckUpEmployeeController@destroy');
         });
     });
 });
