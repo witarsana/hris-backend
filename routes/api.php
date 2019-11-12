@@ -267,6 +267,24 @@ Route::middleware('auth:api')->group(function () {
              Route::post('/iregulardeduction/{id}/approval','Api\IregularDeductionController@approval');
              Route::delete('/iregulardeduction/{id}','Api\IregularDeductionController@destroy');
 
+             #NATIONAL HOLIDAY
+             Route::get('/nationalholiday','Api\NationalHolidayController@index');
+             Route::get('/nationalholiday/filter','Api\NationalHolidayController@listFilterAndPagine');
+             Route::get('/nationalholiday/{id}','Api\NationalHolidayController@show');
+             Route::post('/nationalholiday','Api\NationalHolidayController@store');
+             Route::post('/nationalholiday/{id}/update','Api\NationalHolidayController@update');
+             Route::post('/nationalholiday/{id}/approval','Api\NationalHolidayController@approval');
+             Route::delete('/nationalholiday/{id}','Api\NationalHolidayController@destroy');
+
+             #NATIONAL HOLIDAY
+             Route::get('/medicalclaimemployee','Api\MedicalClaimEmployeeController@index');
+             Route::get('/medicalclaimemployee/filter','Api\MedicalClaimEmployeeController@listFilterAndPagine');
+             Route::get('/medicalclaimemployee/{id}','Api\MedicalClaimEmployeeController@show');
+             Route::post('/medicalclaimemployee','Api\MedicalClaimEmployeeController@store');
+             Route::post('/medicalclaimemployee/{id}/update','Api\MedicalClaimEmployeeController@update');
+             Route::post('/medicalclaimemployee/{id}/approval','Api\MedicalClaimEmployeeController@approval');
+             Route::delete('/medicalclaimemployee/{id}','Api\MedicalClaimEmployeeController@destroy');
+
         });
     });
 });
