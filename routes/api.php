@@ -249,6 +249,24 @@ Route::middleware('auth:api')->group(function () {
              Route::post('/spldetail/{id}/approval','Api\SplDetailController@approval');
              Route::delete('/spldetail/{id}','Api\SplDetailController@destroy');
 
+             #IREGULAR INCOME
+             Route::get('/iregularincome','Api\IregularIncomeController@index');
+             Route::get('/iregularincome/filter','Api\IregularIncomeController@listFilterAndPagine');
+             Route::get('/iregularincome/{id}','Api\IregularIncomeController@show');
+             Route::post('/iregularincome','Api\IregularIncomeController@store');
+             Route::post('/iregularincome/{id}/update','Api\IregularIncomeController@update');
+             Route::post('/iregularincome/{id}/approval','Api\IregularIncomeController@approval');
+             Route::delete('/iregularincome/{id}','Api\IregularIncomeController@destroy');
+
+             #IREGULAR DEDUCTION
+             Route::get('/iregulardeduction','Api\IregularDeductionController@index');
+             Route::get('/iregulardeduction/filter','Api\IregularDeductionController@listFilterAndPagine');
+             Route::get('/iregulardeduction/{id}','Api\IregularDeductionController@show');
+             Route::post('/iregulardeduction','Api\IregularDeductionController@store');
+             Route::post('/iregulardeduction/{id}/update','Api\IregularDeductionController@update');
+             Route::post('/iregulardeduction/{id}/approval','Api\IregularDeductionController@approval');
+             Route::delete('/iregulardeduction/{id}','Api\IregularDeductionController@destroy');
+
         });
     });
 });
