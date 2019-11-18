@@ -293,6 +293,24 @@ Route::middleware('auth:api')->group(function () {
              Route::post('/medicalcheckupemployee/{id}/update','Api\MedicalCheckUpEmployeeController@update');
              Route::post('/medicalcheckupemployee/{id}/approval','Api\MedicalCheckUpEmployeeController@approval');
              Route::delete('/medicalcheckupemployee/{id}','Api\MedicalCheckUpEmployeeController@destroy');
+
+             #LOAN EMPLOYEE
+             Route::get('/loanemployee','Api\LoanEmployeeController@index');
+             Route::get('/loanemployee/filter','Api\LoanEmployeeController@listFilterAndPagine');
+             Route::get('/loanemployee/{id}','Api\LoanEmployeeController@show');
+             Route::post('/loanemployee','Api\LoanEmployeeController@store');
+             Route::post('/loanemployee/{id}/update','Api\LoanEmployeeController@update');
+             Route::post('/loanemployee/{id}/approval','Api\LoanEmployeeController@approval');
+             Route::delete('/loanemployee/{id}','Api\LoanEmployeeController@destroy');
+
+             #LOAN INSTALLMENTS HISTORY
+             Route::get('/loaninstallmentshistory','Api\LoanInstallmentsHistoryController@index');
+             Route::get('/loaninstallmentshistory/filter','Api\LoanInstallmentsHistoryController@listFilterAndPagine');
+             Route::get('/loaninstallmentshistory/{id}','Api\LoanInstallmentsHistoryController@show');
+             Route::post('/loaninstallmentshistory','Api\LoanInstallmentsHistoryController@store');
+             Route::post('/loaninstallmentshistory/{id}/update','Api\LoanInstallmentsHistoryController@update');
+             Route::post('/loaninstallmentshistory/{id}/approval','Api\LoanInstallmentsHistoryController@approval');
+             Route::delete('/loaninstallmentshistory/{id}','Api\LoanInstallmentsHistoryController@destroy');
         });
     });
 });
