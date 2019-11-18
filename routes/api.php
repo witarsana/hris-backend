@@ -311,6 +311,24 @@ Route::middleware('auth:api')->group(function () {
              Route::post('/loaninstallmentshistory/{id}/update','Api\LoanInstallmentsHistoryController@update');
              Route::post('/loaninstallmentshistory/{id}/approval','Api\LoanInstallmentsHistoryController@approval');
              Route::delete('/loaninstallmentshistory/{id}','Api\LoanInstallmentsHistoryController@destroy');
+
+             #SETTING HEADER
+             Route::get('/settingheader','Api\SettingHeaderController@index');
+             Route::get('/settingheader/filter','Api\SettingHeaderController@listFilterAndPagine');
+             Route::get('/settingheader/{id}','Api\SettingHeaderController@show');
+             Route::post('/settingheader','Api\SettingHeaderController@store');
+             Route::post('/settingheader/{id}/update','Api\SettingHeaderController@update');
+             Route::post('/settingheader/{id}/approval','Api\SettingHeaderController@approval');
+             Route::delete('/settingheader/{id}','Api\SettingHeaderController@destroy');
+
+             #SETTING DETAIL
+             Route::get('/settingdetail','Api\SettingDetailController@index');
+             Route::get('/settingdetail/filter','Api\SettingDetailController@listFilterAndPagine');
+             Route::get('/settingdetail/{id}','Api\SettingDetailController@show');
+             Route::post('/settingdetail','Api\SettingDetailController@store');
+             Route::post('/settingdetail/{id}/update','Api\SettingDetailController@update');
+             Route::post('/settingdetail/{id}/approval','Api\SettingDetailController@approval');
+             Route::delete('/settingdetail/{id}','Api\SettingDetailController@destroy');
         });
     });
 });
