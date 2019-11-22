@@ -329,6 +329,16 @@ Route::middleware('auth:api')->group(function () {
              Route::post('/settingdetail/{id}/update','Api\SettingDetailController@update');
              Route::post('/settingdetail/{id}/approval','Api\SettingDetailController@approval');
              Route::delete('/settingdetail/{id}','Api\SettingDetailController@destroy');
+
+             
+             #SALARY EMPLOYEE
+             Route::get('/salaryemployee','Api\SalaryEmployeeController@index');
+             Route::get('/salaryemployee/filter','Api\SalaryEmployeeController@listFilterAndPagine');
+             Route::get('/salaryemployee/{id}','Api\SalaryEmployeeController@show');
+             Route::post('/salaryemployee','Api\SalaryEmployeeController@store');
+             Route::post('/salaryemployee/{id}/update','Api\SalaryEmployeeController@update');
+             Route::post('/salaryemployee/{id}/approval','Api\SalaryEmployeeController@approval');
+             Route::delete('/salaryemployee/{id}','Api\SalaryEmployeeController@destroy');
         });
     });
 });
