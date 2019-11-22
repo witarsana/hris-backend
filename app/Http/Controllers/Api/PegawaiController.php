@@ -133,7 +133,8 @@ class PegawaiController extends Controller
     {   
         try {
             //find the company name, so it can store image on the right directory
-            list($companyName) = explode('.', $request->getHost(), 2);
+            //list($companyName) = explode('.', $request->getHost(), 2);
+            $companyName = $request->user()->company_name;
             $company = Company::where("company_name",$companyName)->first();
 
             //files            
@@ -280,7 +281,8 @@ class PegawaiController extends Controller
 
             if ($oPegawai) {
                 //find the company name, so it can store image on the right directory
-                list($companyName) = explode('.', $request->getHost(), 2);
+                //list($companyName) = explode('.', $request->getHost(), 2);
+                $companyName = $request->user()->company_name;
                 $company = Company::where("company_name",$companyName)->first();
 
                 //files            
@@ -420,14 +422,16 @@ class PegawaiController extends Controller
     }
 
     public function photoId(Request $request,$id){
-        list($companyName) = explode('.', $request->getHost(), 2);
+        //list($companyName) = explode('.', $request->getHost(), 2);
+        $companyName = $request->user()->company_name;
         $company = Company::where("company_name",$companyName)->first();
         $path = public_path()."/".$company->company_name."/".$id."";
         return response()->download($path);
     }
 
     public function photoByObject(Request $request,$id){
-        list($companyName) = explode('.', $request->getHost(), 2);
+        //list($companyName) = explode('.', $request->getHost(), 2);
+        $companyName = $request->user()->company_name;
         $company = Company::where("company_name",$companyName)->first();
 
         try{

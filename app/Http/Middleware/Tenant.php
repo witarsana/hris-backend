@@ -13,9 +13,11 @@ class Tenant
     public function handle($request, Closure $next)
     {
         
-        list($subdomain) = explode('.', $request->getHost(), 2);
-        
+        //list($subdomain) = explode('.', $request->getHost(), 2);
+        $subdomain =$request->user()->company_name;
         $company = Company::where("company_name",$subdomain)->first();
+
+        //dd($company);
         
         if (empty($company)){
             return redirect()->route('unregistered');
