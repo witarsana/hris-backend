@@ -51,6 +51,8 @@ class Install extends Command
                 '--force' => true
             ]);
 
+            Artisan::call('vendor:publish --provider="Spatie\Cors\CorsServiceProvider" --tag="config"');
+
             $this->info(config('app.name') . ' has been installed');
         } catch (\Exception $e) {
             $this->error('Error!');

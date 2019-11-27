@@ -2,6 +2,7 @@
 
 use Illuminate\Http\Request;
 
+Route::get('/companyaccess','CompanyController@companyAccess');
 
 //for unauthorized route
 Route::get('/',function(){
