@@ -31,10 +31,10 @@ class UserController extends Controller
                     $oUser->save();
                     return $this->sendResponse($oUser, $this->successStatus);
                 }else{
-                    return $this->sendError(403, ['error'=> 'Invalid Password']);
+                    return $this->sendError(404, ['error'=> 'Invalid Username and Password']);
                 }
             }else{
-                return $this->sendError(404, ['error'=> 'User does not exist.']);
+                return $this->sendError(404, ['error'=> 'Invalid Username and Password']);
             }
         }catch (\Exception $e){
             return $this->sendError(500, ['error'=> $e]);
