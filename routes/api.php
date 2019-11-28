@@ -11,7 +11,7 @@ Route::get('/',function(){
         "message" => 401,
         "data"    => "Unauthorized"
     ];
-    return response()->json($res);   
+    return response()->json($res,401);   
 })->name('unauthorized');
 
 //route for thoose who pass oauth 
@@ -23,7 +23,7 @@ Route::middleware('auth:api')->group(function () {
             "message" => 404,
             "data"    => "Unregistered Company"
         ];
-        return response()->json($res);
+        return response()->json($res,401);
     })->name('unregistered');
 
     Route::get('/needlogin',function(){
@@ -32,7 +32,7 @@ Route::middleware('auth:api')->group(function () {
             "message" => 401,
             "data"    => "Login required"
         ];
-        return response()->json($res);
+        return response()->json($res,401);
     })->name('needlogin');
 
     #ROUTE FOR LOGIN
