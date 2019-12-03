@@ -37,8 +37,8 @@ class StoreRequest extends FormRequest
             'jpk_nikah' => ['required','numeric','max:99999','regex:/^\d*(\.\d{1,2})?$/'],
             'bpjsp' => ['required','numeric','max:99999','regex:/^\d*(\.\d{1,2})?$/'],
             'bpjsk' => ['required','numeric','max:99999','regex:/^\d*(\.\d{1,2})?$/'],
-            'max_salary_pension' => ['required','numeric','regex:/^\d*(\.\d{1,2})?$/'],
-            'max_salary_medical' => ['required','numeric','regex:/^\d*(\.\d{1,2})?$/'],
+            'max_salary_pension' => ['required','numeric','regex:/^\d*(\.\d{1,4})?$/'],
+            'max_salary_medical' => ['required','numeric','regex:/^\d*(\.\d{1,4})?$/'],
             'pension_company' => ['required','numeric','max:99999','regex:/^\d*(\.\d{1,2})?$/'],
             'pension_employees' => ['required','numeric','max:99999','regex:/^\d*(\.\d{1,2})?$/'],
         ];
