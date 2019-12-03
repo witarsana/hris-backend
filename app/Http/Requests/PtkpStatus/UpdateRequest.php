@@ -20,9 +20,9 @@ class UpdateRequest extends FormRequest
     {   
         return [
             'description' => ['required'],
-            'status' => ['required','integer'],
-            'dependents' => ['required','integer'],
-            'ptkp_value' => ['required','integer'],
+            'status' => ['required','integer','digits_between:0,11'],
+            'dependents' => ['required','integer','digits_between:0,11'],
+            'ptkp_value' => ['required','numeric'],
         ];
     }
 
@@ -32,7 +32,7 @@ class UpdateRequest extends FormRequest
         
         throw new HttpResponseException(
             response()->json(
-                ['success' => false,'message'=>500,'data' => $errors], JsonResponse::HTTP_UNPROCESSABLE_ENTITY)
+                ['success' => false,'message'=>500,'data' => $errors], JsonResponse::HTTP_ACCEPTED)
         );
     }
 }
