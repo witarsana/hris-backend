@@ -35,8 +35,8 @@ class BpjsRateController extends Controller
                             ->orWhere('jkk', 'like', '%' . $filter . '%')
                             ->orWhere('jpk_lajang', 'like', '%' . $filter . '%')
                             ->orWhere('jpk_nikah', 'like', '%' . $filter . '%')
-                            ->orWhere('bpjsp', 'like', '%' . $filter . '%')
-                            ->orWhere('bpjsk', 'like', '%' . $filter . '%')
+                            ->orWhere('bpjskesp', 'like', '%' . $filter . '%')
+                            ->orWhere('bpjskesk', 'like', '%' . $filter . '%')
                             ->orWhere('max_salary_pension', 'like', '%' . $filter . '%')
                             ->orWhere('max_salary_medical', 'like', '%' . $filter . '%')
                             ->orWhere('pension_company', 'like', '%' . $filter . '%')
@@ -78,8 +78,8 @@ class BpjsRateController extends Controller
             $oBpjsRate->jkk = $request->jkk;
             $oBpjsRate->jpk_lajang = $request->jpk_lajang;
             $oBpjsRate->jpk_nikah = $request->jpk_nikah;
-            $oBpjsRate->bpjsp = $request->bpjsp;
-            $oBpjsRate->bpjsk = $request->bpjsk;
+            $oBpjsRate->bpjskesp = $request->bpjskesp;
+            $oBpjsRate->bpjskesk = $request->bpjskesk;
             $oBpjsRate->max_salary_pension = $request->max_salary_pension;
             $oBpjsRate->max_salary_medical = $request->max_salary_medical;
             $oBpjsRate->pension_company = $request->pension_company;
@@ -103,8 +103,8 @@ class BpjsRateController extends Controller
                 $oBpjsRate->jkk = $request->jkk;
                 $oBpjsRate->jpk_lajang = $request->jpk_lajang;
                 $oBpjsRate->jpk_nikah = $request->jpk_nikah;
-                $oBpjsRate->bpjsp = $request->bpjsp;
-                $oBpjsRate->bpjsk = $request->bpjsk;
+                $oBpjsRate->bpjskesp = $request->bpjskesp;
+                $oBpjsRate->bpjskesk = $request->bpjskesk;
                 $oBpjsRate->max_salary_pension = $request->max_salary_pension;
                 $oBpjsRate->max_salary_medical = $request->max_salary_medical;
                 $oBpjsRate->pension_company = $request->pension_company;
