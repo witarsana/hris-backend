@@ -21,14 +21,14 @@ class UpdateRequest extends FormRequest
         return [
             "salary_name" => ["required","max:100"],            
             "income_deduction_status" => ["required","in:income,deduction"],
-            "active_status" => ["required","in:active,not active"],
+            "active_status" => ["required","in:active,non active"],
             "regular_iregular_status" => ["required","in:regular,iregular"],
             "attendance_related_status" => ["required","in:related,non related"],
-            "thr_related_status" => ["required","in:related,not related"],
-            "overtime_related_status" => ["required","in:related,not related"],
-            "tax_related_status" => ["required","in:related,not related"],
-            "bpjstk_related_status" => ["required","in:related,not related"],
-            "bpjskes_related_status" => ["required","in:related,not related"],
+            "thr_related_status" => ["required","in:related,non related"],
+            "overtime_related_status" => ["required","in:related,non related"],
+            "tax_related_status" => ["required","in:related,non related"],
+            "bpjstk_related_status" => ["required","in:related,non related"],
+            "bpjskes_related_status" => ["required","in:related,non related"],
             "description" => ["max:100"], 
         ];
     }
@@ -39,7 +39,7 @@ class UpdateRequest extends FormRequest
         
         throw new HttpResponseException(
             response()->json(
-                ['success' => false,'message'=>500,'data' => $errors], JsonResponse::HTTP_UNPROCESSABLE_ENTITY)
+                ['success' => false,'message'=>500,'data' => $errors], JsonResponse::HTTP_ACCEPTED)
         );
     }
 }

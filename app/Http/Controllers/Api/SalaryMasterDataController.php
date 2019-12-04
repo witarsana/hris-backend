@@ -40,7 +40,7 @@ class SalaryMasterDataController extends Controller
                             ->orWhere('description', 'like', '%' . $filter . '%')
                             ->paginate($count);
             }else{
-                $lsSalaryMasterData = SalaryMasterData::paginate($count);
+                $lsSalaryMasterData = SalaryMasterData::with('user_i','user_e')->paginate($count);
             }
             
             
