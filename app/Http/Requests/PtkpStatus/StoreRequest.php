@@ -30,7 +30,7 @@ class StoreRequest extends FormRequest
         return [
             'description' => ['required'],
             'status' => ['required','integer','digits_between:0,11','in:1,2,5'],
-            'dependents' => ['required','integer','digits_between:0,11','min:1','max:3'],
+            'dependents' => ['required','integer','digits_between:0,11','min:0','max:3'],
             'ptkp_value' => ['required','numeric'],
         ];
     }
