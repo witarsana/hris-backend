@@ -20,8 +20,8 @@ class UpdateRequest extends FormRequest
     {   
         return [
             'description' => ['required'],
-            'status' => ['required','integer','digits_between:0,11'],
-            'dependents' => ['required','integer','digits_between:0,11'],
+            'status' => ['required','integer','digits_between:0,11','in:1,2,5'],
+            'dependents' => ['required','integer','digits_between:0,11','min:1','max:3'],
             'ptkp_value' => ['required','numeric'],
         ];
     }
