@@ -340,6 +340,14 @@ Route::middleware('auth:api')->group(function () {
              Route::post('/salaryemployee/{id}/update','Api\SalaryEmployeeController@update');
              Route::post('/salaryemployee/{id}/approval','Api\SalaryEmployeeController@approval');
              Route::delete('/salaryemployee/{id}','Api\SalaryEmployeeController@destroy');
+
+            #ROUTE FOR EMPLOYEE TYPE
+            Route::get('/employeetype','Api\EmployeeTypeController@index');
+            Route::get('/employeetype/filter','Api\EmployeeTypeController@listFilterAndPagine');
+            Route::get('/employeetype/{id}','Api\EmployeeTypeController@show');
+            Route::post('/employeetype','Api\EmployeeTypeController@store');
+            Route::post('/employeetype/{id}/update','Api\EmployeeTypeController@update');
+            Route::delete('/employeetype/{id}','Api\EmployeeTypeController@destroy');
         });
     });
 });
