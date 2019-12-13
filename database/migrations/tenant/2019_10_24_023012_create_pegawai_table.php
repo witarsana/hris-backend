@@ -97,6 +97,7 @@ class CreatePegawaiTable extends Migration
             $table->string('fingerprint_id',50)->nullable();
             $table->string('first_employee_id',50)->nullable();
             $table->integer('contract_counter')->nullable();
+            $table->string('employee_type_code',50);
             $table->softDeletes();
             $table->timestamps();
         });

@@ -18,7 +18,7 @@ class PegawaiController extends Controller
     {    
          
         try{
-            $lsPegawai = Pegawai::with('get_ptkp_status','get_bpjs_rate')->get();
+            $lsPegawai = Pegawai::with('get_ptkp_status','get_bpjs_rate','get_employee_type')->get();
             
             return $this->sendResponse($lsPegawai, $this->successStatus);
         }catch (\Exception $e){
@@ -33,7 +33,7 @@ class PegawaiController extends Controller
         $count = $request->count;
         try{
             if (strlen($filter)>0){
-                $lsPegawai = Pegawai::with('get_ptkp_status','get_bpjs_rate')
+                $lsPegawai = Pegawai::with('get_ptkp_status','get_bpjs_rate','get_employee_type')
                             ->where('employee_id', 'like', '%' . $filter . '%')
                             ->orWhere('first_name', 'like', '%' . $filter . '%')
                             ->orWhere('middle_name', 'like', '%' . $filter . '%')
@@ -119,7 +119,7 @@ class PegawaiController extends Controller
 
                             ->paginate($count);
             }else{
-                $lsPegawai = Pegawai::with('get_ptkp_status','get_bpjs_rate')->paginate($count);
+                $lsPegawai = Pegawai::with('get_ptkp_status','get_bpjs_rate','get_employee_type')->paginate($count);
             }
             
             
@@ -242,7 +242,7 @@ class PegawaiController extends Controller
             $oPegawai->fingerprint_id= $request->fingerprint_id;
             $oPegawai->first_employee_id= $request->first_employee_id;
             $oPegawai->contract_counter= $request->contract_counter;
-
+            $oPegawai->get_employee_type = $request->get_employee_type;
             $oPegawai->save();
 
             return $this->sendResponse($oPegawai, $this->successStatus);
@@ -261,7 +261,7 @@ class PegawaiController extends Controller
     {
         
         try{
-            $oPegawai = Pegawai::with('get_ptkp_status','get_bpjs_rate','get_education','get_family','get_job_history','get_position_history','get_historical_training.training_type','get_historical_salary','get_historical_leaves','get_sanction_historical')->find($id);
+            $oPegawai = Pegawai::with('get_ptkp_status','get_bpjs_rate','get_education','get_family','get_job_history','get_position_history','get_historical_training.training_type','get_historical_salary','get_historical_leaves','get_sanction_historical','get_employee_type')->find($id);
 
             if ($oPegawai) {
                 return $this->sendResponse($oPegawai, $this->successStatus);
@@ -392,7 +392,7 @@ class PegawaiController extends Controller
                 $oPegawai->fingerprint_id= $request->fingerprint_id;
                 $oPegawai->first_employee_id= $request->first_employee_id;
                 $oPegawai->contract_counter= $request->contract_counter;
-
+                $oPegawai->get_employee_type = $request->get_employee_type;
                 $oPegawai->save();
 
                 return $this->sendResponse($oPegawai, $this->successStatus);
