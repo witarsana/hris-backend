@@ -1,14 +1,15 @@
 <?php
 
-namespace App\Http\Requests\OrganizationMasterData;
+namespace App\Http\Requests\EmployeeType;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Http\Exceptions\HttpResponseException;
+use Illuminate\Validation\Rule;
 
-class StoreRequest extends FormRequest
+class UpdateRequest extends FormRequest
 {
     
     public function authorize()
@@ -16,17 +17,11 @@ class StoreRequest extends FormRequest
         return true;
     }
 
-   
     public function rules()
-    {
-        return [           
-            "org_code" => ["required","max:50","unique:tenant.organization_master_data"],
-            "org_name" => ["required","max:100"],
-            "dependent_to" => ["max:50"],
-            "dependent_status" => ["required","in:dependant,not dependant"],
-            "mandatory_status" => ["required","in:mandatory,not mandatory"],
-            "user_management_status" => ["required","in:related,not related"],
-            "sorting_number" => ["required","integer"],
+    {   
+        return [
+            "employee_type_code" => ["required",Rule::unique('tenant.employee_type')->ignore($this->id),"max:50"],
+            "employee_type_name" => ["required","max:100"],            
         ];
     }
 

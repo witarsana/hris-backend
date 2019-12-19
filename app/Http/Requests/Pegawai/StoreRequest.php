@@ -109,7 +109,8 @@ class StoreRequest extends FormRequest
             "resign_reason" => ["max:255"],
             "fingerprint_id" => ["max:50"],
             "first_employee_id" => ["max:50"],
-            "contract_counter" => ["integer"]
+            "contract_counter" => ["integer"],
+            "employee_type_code" => ["required","max:50"]
 
         ];
         

@@ -95,6 +95,7 @@ class Pegawai extends Model
         'fingerprint_id',
         'first_employee_id',
         'contract_counter',
+        'employee_type_code'
     ];
 
 
@@ -136,6 +137,10 @@ class Pegawai extends Model
 
     public function get_sanction_historical(){
         return $this->hasMany('App\Model\Tenant\SanctionHistorical', 'employee_id', 'employee_id');
+    }
+
+    public function get_employee_type(){
+        return $this->belongsTo('App\Model\Tenant\EmployeeType','employee_type_code','employee_type_code');
     }
 
 }

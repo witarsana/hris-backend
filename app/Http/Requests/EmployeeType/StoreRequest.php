@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Requests\OrganizationMasterData;
+namespace App\Http\Requests\EmployeeType;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\JsonResponse;
@@ -10,23 +10,21 @@ use Illuminate\Http\Exceptions\HttpResponseException;
 
 class StoreRequest extends FormRequest
 {
-    
+    /**
+     * Determine if the user is authorized to make this request.
+     *
+     * @return bool
+     */
     public function authorize()
     {
         return true;
     }
 
-   
     public function rules()
-    {
-        return [           
-            "org_code" => ["required","max:50","unique:tenant.organization_master_data"],
-            "org_name" => ["required","max:100"],
-            "dependent_to" => ["max:50"],
-            "dependent_status" => ["required","in:dependant,not dependant"],
-            "mandatory_status" => ["required","in:mandatory,not mandatory"],
-            "user_management_status" => ["required","in:related,not related"],
-            "sorting_number" => ["required","integer"],
+    {   
+        return [
+            "employee_type_code" => ["required","unique:tenant.employee_type","max:50"],
+            "employee_type_name" => ["required","max:100"],            
         ];
     }
 
