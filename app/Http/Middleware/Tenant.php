@@ -17,8 +17,7 @@ class Tenant
         $subdomain =$request->user()->company_name;
         $company = Company::where("company_name",$subdomain)->first();
 
-        //dd($company);
-        
+        //dd($company);        
         if (empty($company)){
             return redirect()->route('unregistered');
         }

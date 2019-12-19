@@ -44,4 +44,6 @@ class StoreRequest extends FormRequest
                 ['success' => false,'message'=>500,'data' => $errors], JsonResponse::HTTP_UNPROCESSABLE_ENTITY)
         );
     }
+
+
 }

@@ -6,6 +6,7 @@ Route::get('/companyaccess','CompanyController@companyAccess');
 
 //for unauthorized route
 Route::get('/',function(){
+    //return bcrypt('mahpati');
     $res = [
         "status"  => false,
         "message" => 401,
