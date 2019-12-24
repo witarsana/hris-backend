@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Api;
 
 use App\Model\Tenant\Pegawai;
+use App\Model\Tenant\EmployeeOrganization;
+use App\Model\Tenant\SalaryEmployee;
 use App\Model\Main\Company;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -10,6 +12,8 @@ use App\Http\Requests\Pegawai\StoreRequest;
 use App\Http\Requests\Pegawai\UpdateRequest;
 use Ramsey\Uuid\Uuid;
 use File;
+use Validator;
+use Illuminate\Http\JsonResponse;
 
 class PegawaiController extends Controller
 {
@@ -72,7 +76,7 @@ class PegawaiController extends Controller
                             ->orWhere('salary_month_begin', 'like', '%' . $filter . '%')
                             ->orWhere('salary_month_end', 'like', '%' . $filter . '%')
                             ->orWhere('overtime_status', 'like', '%' . $filter . '%')
-                            ->orWhere('shift_status', 'like', '%' . $filter . '%')
+                            ->orWhere('shift_code', 'like', '%' . $filter . '%')
                             ->orWhere('npwp_number', 'like', '%' . $filter . '%')
                             ->orWhere('npwp_activation_date', 'like', '%' . $filter . '%')
                             ->orWhere('npwp_status', 'like', '%' . $filter . '%')
@@ -242,8 +246,31 @@ class PegawaiController extends Controller
             $oPegawai->fingerprint_id= $request->fingerprint_id;
             $oPegawai->first_employee_id= $request->first_employee_id;
             $oPegawai->contract_counter= $request->contract_counter;
-            $oPegawai->get_employee_type = $request->get_employee_type;
+            $oPegawai->employee_type_code = $request->employee_type_code;
             $oPegawai->save();
+
+            //save to employee organization 
+            $oEmployeeOrganization = new EmployeeOrganization();
+            $oEmployeeOrganization->employee_id = $request->employee_id;
+            $oEmployeeOrganization->org_code = $request->organization_code;
+            $oEmployeeOrganization->user_input = $request->get('userLoginId');
+            $oEmployeeOrganization->user_edit = $request->get('userLoginId');
+            $oEmployeeOrganization->save();
+            
+            //save to salary employee
+            $salaryEmployeeArr = $request->salary_employee;
+            
+            for ($x=0;$x<count($salaryEmployeeArr);$x++){
+                $oSalaryEmployee = new SalaryEmployee();
+                $oSalaryEmployee->employee_id = $oPegawai->employee_id;
+                $oSalaryEmployee->salary_code = $salaryEmployeeArr[$x]['salary_code'];
+                $oSalaryEmployee->amount = $salaryEmployeeArr[$x]['amount'];
+                $oSalaryEmployee->description = $salaryEmployeeArr[$x]['description'];
+                $oSalaryEmployee->user_input = $request->get('userLoginId');
+                $oSalaryEmployee->user_edit = $request->get('userLoginId');
+                $oSalaryEmployee->save();
+            }
+            
 
             return $this->sendResponse($oPegawai, $this->successStatus);
 
@@ -392,7 +419,7 @@ class PegawaiController extends Controller
                 $oPegawai->fingerprint_id= $request->fingerprint_id;
                 $oPegawai->first_employee_id= $request->first_employee_id;
                 $oPegawai->contract_counter= $request->contract_counter;
-                $oPegawai->get_employee_type = $request->get_employee_type;
+                $oPegawai->employee_type_code = $request->employee_type_code;
                 $oPegawai->save();
 
                 return $this->sendResponse($oPegawai, $this->successStatus);
@@ -448,5 +475,94 @@ class PegawaiController extends Controller
             return $this->sendError(500, ['error'=> $e]);
         }
         
+    }
+
+    public function checkValidate(Request $request){
+        
+        $step = $request->step;
+
+        switch($step){
+            case 1 :
+                $validator = Validator::make($request->all(), [
+                    'employee_id' => 'required|unique:tenant.pegawai|max:50',
+                    'first_name' => 'required|max:100',
+                    'middle_name' => 'max:100',
+                    'last_name' => 'max:100',
+                    'alias_name' => 'max:100',
+                    'join_date' => 'required|date',
+                    'employee_type_code' => 'required|max:50',
+                    'contract_begin_date' => 'required|date',
+                    'contract_end_date' => 'required|date',
+                    'pkwt_number' => 'required|max:50',
+                    'fingerprint_id' => 'max:50',
+                    'shift_code' => 'required|max:50',
+                    'organization_code' => 'required'
+
+                ]);
+                if ($validator->fails()) {
+                    return $this->sendError(500, ['error'=> $validator->errors()]);                  
+                }else{
+                    return $this->sendError(200, ['error'=> $validator->errors()]);
+                }
+            break;
+            case 2 : 
+                $validator = Validator::make($request->all(), [
+                    'handphone_number' => 'required|max:50',
+                    'phone_number_1' => 'max:20',
+                    'email_1' =>'required|email',
+                    'country_1' => 'required|max:100',
+                    'province_1' => 'max:100',
+                    'city_1' => 'max:100',
+                    'district_1' => 'max:100',
+                    'sub_district_1' => 'max:100',
+                    'address_1' =>'required',
+                    'postal_code_1' => 'max:10'
+                ]);
+                if ($validator->fails()) {
+                    return $this->sendError(500, ['error'=> $validator->errors()]);                  
+                }else{
+                    return $this->sendError(200, ['error'=> $validator->errors()]);
+                }
+            break;
+            case 3 : 
+                $validator = Validator::make($request->all(), [
+                    'birth_place' => 'required|max:50',
+                    'birth_date' => 'required|date',
+                    'gender' => 'required|max:50',
+                    'citizen' => 'required|max:20',
+                    'religion' => 'max:50',
+                    'marital_status' => 'required|max:50',
+                    'number_of_dependents' => 'required|integer',
+                    'bank_name_1' => 'required|max:50',
+                    'bank_account_name_1' => 'required|max:50',
+                    'bank_account_number_1' => 'required|max:50',
+                    'bank_branch_name_1' => 'required|max:50'
+                ]);
+                if ($validator->fails()) {
+                    return $this->sendError(500, ['error'=> $validator->errors()]);                  
+                }else{
+                    return $this->sendError(200, ['error'=> $validator->errors()]);
+                }
+            break;
+            case 4: 
+                $validator = Validator::make($request->all(), [
+                    'kode_status_ptkp' => 'required',
+                    'salary_tax_type' => 'required|integer',
+                    'npwp_status' => 'required|integer',
+                    'salary_month_begin' => 'required|integer',
+                    'salary_month_end' => 'required|integer',
+                    'saldo_pendapatan' => 'numeric',
+                    'saldo_pajak' => 'numeric',
+                    'overtime_status' => 'required|integer',
+                    'bpjs_status' => 'required|integer',
+                ]);
+                if ($validator->fails()) {
+                    return $this->sendError(500, ['error'=> $validator->errors()]);                  
+                }else{
+                    return $this->sendError(200, ['error'=> $validator->errors()]);
+                }
+            break;
+        }
+
     }
 }

@@ -67,6 +67,7 @@ Route::middleware('auth:api')->group(function () {
             Route::post('/pegawai','Api\PegawaiController@store');
             Route::post('/pegawai/{id}/update','Api\PegawaiController@update');
             Route::delete('/pegawai/{id}','Api\PegawaiController@destroy');
+            Route::post('/pegawai/checkvalidate','Api\PegawaiController@checkValidate');
 
             #ROUTE FOR EDUCATION
             Route::get('/education','Api\EducationController@index');
