@@ -30,7 +30,8 @@ class UpdateRequest extends FormRequest
     {   
         
         return [
-            "shift_code" =>["required","max:50",Rule::unique('tenant.workshift_master_data')->ignore($this->id,'shift_code')],
+           /* "shift_code" =>["required","max:50",Rule::unique('tenant.workshift_master_data')->ignore($this->id,'shift_code')],*/
+            "shift_code" =>["required","max:50"],
             "shift_name" =>["required","max:100"],
             "begin_time" =>["required","date_format:H:i"],
             "end_time" =>["required","date_format:H:i"],    
@@ -43,7 +44,7 @@ class UpdateRequest extends FormRequest
         
         throw new HttpResponseException(
             response()->json(
-                ['success' => false,'message'=>500,'data' => $errors], JsonResponse::HTTP_UNPROCESSABLE_ENTITY)
+                ['success' => false,'message'=>500,'data' => $errors], JsonResponse::HTTP_ACCEPTED)
         );
     }
 }

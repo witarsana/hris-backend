@@ -1,30 +1,31 @@
 <?php
 
-namespace App\Http\Requests\EmployeeOrganization;
+namespace App\Http\Requests\OrganizationLevel;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Http\Exceptions\HttpResponseException;
+use Illuminate\Validation\Rule;
 
-class StoreRequest extends FormRequest
+class UpdateRequest extends FormRequest
 {
     public function authorize()
     {
         return true;
     }
 
-    /**
-     * Get the validation rules that apply to the request.
-     *
-     * @return array
-     */
+   
     public function rules()
-    {   
-        return [
-            "employee_id" =>["required","max:50"],
-            "org_code" =>["required","max:50"],           
+    {
+        
+               return [           
+           /* "org_level_code" => ["required","max:50","unique:tenant.organization_level"],*/
+            "org_level_name" => ["required","max:100"],
+            "org_level_desc" => ["max:80"],
+            "sorting_number" => ["required","integer"],
+ 
         ];
     }
 

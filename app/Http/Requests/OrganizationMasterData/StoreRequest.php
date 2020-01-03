@@ -23,6 +23,7 @@ class StoreRequest extends FormRequest
             "org_code" => ["required","max:50","unique:tenant.organization_master_data"],
             "org_name" => ["required","max:100"],
             "dependent_to" => ["max:50"],
+            "org_level_code" => ["required","max:50"],
             "dependent_status" => ["required","in:dependant,not dependant"],
             "mandatory_status" => ["required","in:mandatory,not mandatory"],
             "user_management_status" => ["required","in:related,not related"],

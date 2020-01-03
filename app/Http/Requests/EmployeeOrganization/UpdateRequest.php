@@ -34,7 +34,7 @@ class UpdateRequest extends FormRequest
         
         throw new HttpResponseException(
             response()->json(
-                ['success' => false,'message'=>500,'data' => $errors], JsonResponse::HTTP_UNPROCESSABLE_ENTITY)
+                ['success' => false,'message'=>500,'data' => $errors], JsonResponse::HTTP_ACCEPTED)
         );
     }
 }

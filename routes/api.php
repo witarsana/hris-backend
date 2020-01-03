@@ -186,6 +186,14 @@ Route::middleware('auth:api')->group(function () {
              Route::post('/organizationmasterdata/{id}/update','Api\OrganizationMasterDataController@update');
              Route::delete('/organizationmasterdata/{id}','Api\OrganizationMasterDataController@destroy');
 
+             #ROUTE LEVEL 
+             Route::get('/organizationlevel','Api\organizationlevelController@index');
+             Route::get('/organizationlevel/filter','Api\organizationlevelController@listFilterAndPagine');
+             Route::get('/organizationlevel/{id}','Api\organizationlevelController@show');
+             Route::post('/organizationlevel','Api\organizationlevelController@store');
+             Route::post('/organizationlevel/{id}/update','Api\organizationlevelController@update');
+             Route::delete('/organizationlevel/{id}','Api\organizationlevelController@destroy');
+
              #ROUTE SALARY MASTER DATA
              Route::get('/salarymasterdata','Api\SalaryMasterDataController@index');
              Route::get('/salarymasterdata/filter','Api\SalaryMasterDataController@listFilterAndPagine');

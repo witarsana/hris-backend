@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateUsersTable extends Migration
+class CreateOrganizationLevelTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,16 +13,17 @@ class CreateUsersTable extends Migration
      */
     public function up()
     {
-        Schema::create('users', function (Blueprint $table) {
+        Schema::create('organization_level', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('name');
-            $table->string('email')->unique();
-            $table->timestamp('email_verified_at')->nullable();
-            $table->string('password');
-            $table->rememberToken();
-            $table->string('api_token',100)->nullable();
+            $table->string('org_level_code',50);
+            $table->string('org_level_name',100);
+            $table->text('org_level_desc')->nullable();
+            $table->integer('sorting_number');
+            $table->bigInteger('user_input');
+            $table->bigInteger('user_edit');
             $table->softDeletes();
             $table->timestamps();
+
         });
     }
 
@@ -33,6 +34,6 @@ class CreateUsersTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('users');
+        Schema::dropIfExists('organization_level');
     }
 }
