@@ -180,11 +180,13 @@ Route::middleware('auth:api')->group(function () {
 
              #ROUTE ORGANIZATION MASTER DATA 
              Route::get('/organizationmasterdata','Api\OrganizationMasterDataController@index');
+             Route::get('/organizationmasterdata_dynamic_org/{selected}','Api\OrganizationMasterDataController@generateDynamicOrganizationData');
              Route::get('/organizationmasterdata/filter','Api\OrganizationMasterDataController@listFilterAndPagine');
              Route::get('/organizationmasterdata/{id}','Api\OrganizationMasterDataController@show');
              Route::post('/organizationmasterdata','Api\OrganizationMasterDataController@store');
              Route::post('/organizationmasterdata/{id}/update','Api\OrganizationMasterDataController@update');
              Route::delete('/organizationmasterdata/{id}','Api\OrganizationMasterDataController@destroy');
+             
 
              #ROUTE LEVEL 
              Route::get('/organizationlevel','Api\organizationlevelController@index');

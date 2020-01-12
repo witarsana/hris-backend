@@ -112,7 +112,7 @@ class OrganizationMasterDataController extends Controller
 
            
 
-            $Data1 = '"ComboCount":"'.$OrganizationLevelCounter.'",';
+            $Data1 = "ComboCount:".$OrganizationLevelCounter.",";
 
             $Counter_l = 1;
             
@@ -120,20 +120,20 @@ class OrganizationMasterDataController extends Controller
             $CLC = "";  
             foreach($OrganizationLevelValue_arr as $OL){
                 if($Counter_l >= $OrganizationLevelCounter){
-                    $CLV .= '"'.$OL->org_level_code.'"';
-                    $CLC .= '"'.$OL->org_level_name.'"';
+                    $CLV .= "'".$OL->org_level_code."'";
+                    $CLC .= "'".$OL->org_level_name."'";
                 }
                 else{
-                    $CLV .= '"'.$OL->org_level_code.'"'.",";
-                    $CLC .= '"'.$OL->org_level_name.'"'.",";
+                    $CLV .= "'".$OL->org_level_code."'".",";
+                    $CLC .= "'".$OL->org_level_name."'".",";
                 }
 
                $Counter_l++;
             }
 
-            $Data2 = '"ComboLabelValue":['.$CLV.'],';
-            $Data3 = '"ComboLabelCaption":['.$CLC.'],';
-            $Data4 = '"ComboName":['.$CLV.'],';
+            $Data2 = "ComboLabelValue:[".$CLV."],";
+            $Data3 = "ComboLabelCaption:[".$CLC."],";
+            $Data4 = "ComboName:[".$CLV."],";
 
             //========================================================================================
             //$OrganizationMasterData_arr = OrganizationMasterData::orderBy('org_level_code')->get()->toSql();
@@ -156,16 +156,16 @@ class OrganizationMasterDataController extends Controller
             $Counter_md = 1;
             foreach($OrganizationMasterData_arr as $OMD){
                 if($Counter_md >= $OrganizationMasterDataCounter){
-                    $CMDV .= '{"relation":['.'"'.$OMD->org_level_code1.'"'.','.'"'.$OMD->org_level_code2.'"'.']}';                    
+                    $CMDV .= "{relation:["."'".$OMD->org_level_code1."'".","."'".$OMD->org_level_code2."'"."]}";                    
                 }
                 else{
-                    $CMDV .= '{"relation":['.'"'.$OMD->org_level_code1.'"'.','.'"'.$OMD->org_level_code2.'"'.']},';
+                    $CMDV .= "{relation:["."'".$OMD->org_level_code1."'".","."'".$OMD->org_level_code2."'"."]},";
                 }               
                $Counter_md++;
             }
 
-            $Data5 = '"ComboRelation":['.$CMDV.'],';
-            $Data6 = '"ComboSelected" :[],';
+            $Data5 = "ComboRelation:[".$CMDV."],";
+            $Data6 = "ComboSelected :[],";
             
 
             //===========================================================================================
@@ -184,19 +184,19 @@ class OrganizationMasterDataController extends Controller
             $CLJV = "";
             foreach($OrganizationLevelJoin_arr as $OLJ){
                 if($temp == ""){ $temp = $OLJ->org_level_code;
-                    $CLJV = '{"combo":[';
+                    $CLJV = "{combo:[";
                 }
                 if($temp == $OLJ->org_level_code){
-                    $CLJV .= '{"value" : '.'"'.$OLJ->org_code.'"'.',"caption" : '.'"'.$OLJ->org_name.'"'.'},';                           
+                    $CLJV .= "{value : "."'".$OLJ->org_code."'".",caption : "."'".$OLJ->org_name."'"."},";                           
                 }
                 else{                    
-                    $CLJV .= 'enddata]},';                   
+                    $CLJV .= "enddata]},";                   
                     $temp = $OLJ->org_level_code;
-                    $CLJV .= '{"combo":[';                   
-                    $CLJV .= '{"value" : '.'"'.$OLJ->org_code.'"'.',"caption" : '.'"'.$OLJ->org_name.'"'.'},';                          
+                    $CLJV .= "{combo:[";                   
+                    $CLJV .= "{value : "."'".$OLJ->org_code."'".",caption : "."'".$OLJ->org_name."'"."},";                          
                 }  
             }
-            $CLJV .= 'enddata]}';
+            $CLJV .= "enddata]}";
             $CLJV = str_replace(",enddata","",$CLJV);
 
             
@@ -204,7 +204,7 @@ class OrganizationMasterDataController extends Controller
             //die();
 
 
-            $Data7 = '"DataComb" :['.$CLJV.'],';
+            $Data7 = "DataComb :[".$CLJV."],";
 
             //===========================================================================================
             $query1 = OrganizationMasterData::select('dependent_to','org_name','org_level_code');
@@ -251,25 +251,25 @@ class OrganizationMasterDataController extends Controller
                     $temp = $OR->org_level_code1;
                     if($temp2 == "" ) $temp = $OR->org_code1;
                     //echo "{combo:["."\n";
-                    $CR .= '{"combo":[';
+                    $CR .= "{combo:[";
                 }
 
 
                     if(($temp == $OR->org_level_code1) and  ($temp2 == $OR->org_code1)){
                          //echo "{value : "."'".$OR->org_code2."'".",caption : "."'".$OR->org_name2."'"."},"."\n"; 
-                          $CR .= '{"value" : '.'"'.$OR->org_code2.'"'.',"caption" : '.'"'.$OR->org_name2.'"'.'},';                           
+                          $CR .= "{value : "."'".$OR->org_code2."'".",caption : "."'".$OR->org_name2."'"."},";                           
                     
                     }
                     else{                    
                         if($counter > 1) {
                             //echo  "enddata]},"."\n"; 
-                             $CR .= 'enddata]},' ;
+                             $CR .= "enddata]}," ;
                         } 
                         if($temp != $OR->org_level_code1 and $counter2 > 1){
                             //echo  "enddata]},"."\n"; 
                             //echo "{combo:["."\n";
-                            $CR .= 'enddata]},' ;
-                            $CR .= '{"combo":[';
+                            $CR .= "enddata]}," ;
+                            $CR .= "{combo:[";
                             
                         }
                         $counter2++;
@@ -277,18 +277,18 @@ class OrganizationMasterDataController extends Controller
                         $temp = $OR->org_level_code1;
                         $temp2 =  $OR->org_code1;
                         //echo  "{value: "."'".$OR->org_code1."'".", subcombo :["."\n";  
-                        $CR .= '{"value": '.'"'.$OR->org_code1.'"'.', "subcombo" :[';                 
+                        $CR .= "{value: "."'".$OR->org_code1."'".", subcombo :[";                 
                         //echo  "{value : "."'".$OR->org_code2."'".",caption : "."'".$OR->org_name2."'"."},"."\n";  
-                        $CR .= '{"value" : '.'"'.$OR->org_code2.'"'.',"caption" : '.'"'.$OR->org_name2.'"'.'},';                        
+                        $CR .= "{value : "."'".$OR->org_code2."'".",caption : "."'".$OR->org_name2."'"."},";                        
                     }
 
                     $counter++;
              
             }
         //echo "enddata]}"."\n";
-        $CR .= 'enddata]}';
+        $CR .= "enddata]}";
         //echo  "enddata]}"."\n"; 
-        $CR .= ']}';
+        $CR .= "]}";
         $CR = str_replace(",enddata","",$CR);
         $CR = str_replace("enddata]},","",$CR);
 
@@ -296,7 +296,7 @@ class OrganizationMasterDataController extends Controller
 
         //die();
 
-            $Data8 = '"DataCombRelation" :['.$CR.']';
+            $Data8 = "DataCombRelation :[".$CR."]";
 
 
 

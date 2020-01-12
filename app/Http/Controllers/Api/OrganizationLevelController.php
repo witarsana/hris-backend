@@ -28,8 +28,8 @@ class OrganizationLevelController extends Controller
         try{
             if (strlen($filter)>0){
                 $OrganizationLevel = OrganizationLevel::where('org_level_name', 'like', '%' . $filter . '%')
-                            ->orWhere('org_level_desc', 'like', '%' . $filter . '%')
-                            ->paginate($count);
+                                     ->orWhere('org_level_desc', 'like', '%' . $filter . '%')
+                                    ->paginate($count);
 
                            
             }else{

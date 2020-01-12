@@ -247,22 +247,24 @@ class PegawaiController extends Controller
             $oPegawai->first_employee_id= $request->first_employee_id;
             $oPegawai->contract_counter= $request->contract_counter;
             $oPegawai->employee_type_code = $request->employee_type_code;
+
+
             $oPegawai->save();
 
-            //save to employee organization 
+           /* //save to employee organization 
             $oEmployeeOrganization = new EmployeeOrganization();
             $oEmployeeOrganization->employee_id = $request->employee_id;
             $oEmployeeOrganization->org_code = $request->organization_code;
             $oEmployeeOrganization->user_input = $request->get('userLoginId');
             $oEmployeeOrganization->user_edit = $request->get('userLoginId');
-            $oEmployeeOrganization->save();
+            $oEmployeeOrganization->save();*/
             
             //save to salary employee
             $salaryEmployeeArr = $request->salary_employee;
             
             for ($x=0;$x<count($salaryEmployeeArr);$x++){
                 $oSalaryEmployee = new SalaryEmployee();
-                $oSalaryEmployee->employee_id = $oPegawai->employee_id;
+                $oSalaryEmployee->employee_id = $request->employee_id;
                 $oSalaryEmployee->salary_code = $salaryEmployeeArr[$x]['salary_code'];
                 $oSalaryEmployee->amount = $salaryEmployeeArr[$x]['amount'];
                 $oSalaryEmployee->description = $salaryEmployeeArr[$x]['description'];
@@ -270,6 +272,26 @@ class PegawaiController extends Controller
                 $oSalaryEmployee->user_edit = $request->get('userLoginId');
                 $oSalaryEmployee->save();
             }
+
+            //save to employee organization
+            $organization_employeeArr = $request->organization_employee;
+            $oganization_employee_dataArr = $request->oganization_employee_data;
+
+            for ($x=0;$x<count($organization_employeeArr);$x++){
+                $oEmployeeOrganization = new EmployeeOrganization();
+
+                $oEmployeeOrganization->employee_id =$request->employee_id;
+                $oEmployeeOrganization->org_level_code = $organization_employeeArr[$x];
+                if($oganization_employee_dataArr[$x] == "") $oganization_employee_dataArr[$x] = "-";
+                $oEmployeeOrganization->org_code = $oganization_employee_dataArr[$x];
+                $oEmployeeOrganization->user_input = $request->get('userLoginId');
+                $oEmployeeOrganization->user_edit = $request->get('userLoginId');
+                $oEmployeeOrganization->save();
+            }
+            
+            
+
+           
             
 
             return $this->sendResponse($oPegawai, $this->successStatus);
@@ -544,7 +566,7 @@ class PegawaiController extends Controller
                     return $this->sendError(200, ['error'=> $validator->errors()]);
                 }
             break;
-            case 4: 
+            case 5: 
                 $validator = Validator::make($request->all(), [
                     'kode_status_ptkp' => 'required',
                     'salary_tax_type' => 'required|integer',
