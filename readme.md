@@ -5,7 +5,7 @@
  #### Clone this repository
 
 ```cli
-git clone git@gitlab.com:ccc-hr/core.git
+git clone https://github.com/witarsana/hris-backend.git
 ```
 
 #### Composer
