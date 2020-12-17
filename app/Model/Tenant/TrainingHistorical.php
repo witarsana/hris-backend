@@ -40,11 +40,11 @@ class TrainingHistorical extends Model
         return $this->belongsTo('App\Model\Tenant\Pegawai', 'employee_id', 'employee_id');
     }
 
-    public function user_input() {
+    public function user_i() {
         return $this->belongsTo('App\Model\Tenant\User', 'user_input', 'id');
     }
 
-    public function user_edit() {
+    public function user_e() {
         return $this->belongsTo('App\Model\Tenant\User', 'user_edit', 'id');
     }
 }

@@ -29,18 +29,18 @@ class StoreRequest extends FormRequest
     {   
         return [
             'description' => ['required'],
-            'jhtp' => ['required','numeric'],
-            'jhtk' => ['required','numeric'],
-            'jk' => ['required','numeric'],
-            'jkk' => ['required','numeric'],
-            'jpk_lajang' => ['required','numeric'],
-            'jpk_nikah' => ['required','numeric'],
-            'bpjsp' => ['required','numeric'],
-            'bpjsk' => ['required','numeric'],
-            'max_salary_pension' => ['required','numeric'],
-            'max_salary_medical' => ['required','numeric'],
-            'pension_company' => ['required','numeric'],
-            'pension_employees' => ['required','numeric'],
+            'jhtp' => ['required','numeric','max:99999','regex:/^\d*(\.\d{1,2})?$/'],
+            'jhtk' => ['required','numeric','max:99999','regex:/^\d*(\.\d{1,2})?$/'],
+            'jk' => ['required','numeric','max:99999','regex:/^\d*(\.\d{1,2})?$/'],
+            'jkk' => ['required','numeric','max:99999','regex:/^\d*(\.\d{1,2})?$/'],
+            'jpk_lajang' => ['required','numeric','max:99999','regex:/^\d*(\.\d{1,2})?$/'],
+            'jpk_nikah' => ['required','numeric','max:99999','regex:/^\d*(\.\d{1,2})?$/'],
+            'bpjskesp' => ['required','numeric','max:99999','regex:/^\d*(\.\d{1,2})?$/'],
+            'bpjskesk' => ['required','numeric','max:99999','regex:/^\d*(\.\d{1,2})?$/'],
+            'max_salary_pension' => ['required','numeric','regex:/^\d*(\.\d{1,4})?$/'],
+            'max_salary_medical' => ['required','numeric','regex:/^\d*(\.\d{1,4})?$/'],
+            'pension_company' => ['required','numeric','max:99999','regex:/^\d*(\.\d{1,2})?$/'],
+            'pension_employees' => ['required','numeric','max:99999','regex:/^\d*(\.\d{1,2})?$/'],
         ];
     }
 
@@ -50,7 +50,7 @@ class StoreRequest extends FormRequest
         
         throw new HttpResponseException(
             response()->json(
-                ['success' => false,'message'=>500,'data' => $errors], JsonResponse::HTTP_UNPROCESSABLE_ENTITY)
+                ['success' => false,'message'=>500,'data' => $errors], JsonResponse::HTTP_ACCEPTED)
         );
     }
 

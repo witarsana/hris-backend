@@ -27,11 +27,13 @@ class MakeCompanyCommand extends Command
         $companyId  = Uuid::uuid4()->getHex();
         $companyName = $this->ask("Company Name");
         $companyEmail = $this->ask("Company Email");
-        $companyPassword = $this->secret("Company Password");
+        //$companyPassword = $this->secret("Company Password");
+        $companyPassword = $companyName;
         $dbHost = $this->ask("DB Host");
         $dbPort = $this->ask("DB Port");
         $dbUser = $this->ask("DB User");    
         $dbPassword = $this->secret("Password");
+        //$dbPassword = $companyName;
 
         if ($this->confirm('Do you wish to continue?')) {
             try {              

@@ -23,8 +23,8 @@ class CreateBpjsRatesTable extends Migration
             $table->decimal("jkk",5,2);
             $table->decimal("jpk_lajang",5,2);
             $table->decimal("jpk_nikah",5,2);
-            $table->decimal("bpjsp",5,2);
-            $table->decimal("bpjsk",5,2);
+            $table->decimal("bpjskesp",5,2);
+            $table->decimal("bpjskesk",5,2);
             $table->decimal("max_salary_pension",13,4);
             $table->decimal("max_salary_medical",13,4);
             $table->decimal("pension_company",5,2);

@@ -95,7 +95,10 @@ class Pegawai extends Model
         'fingerprint_id',
         'first_employee_id',
         'contract_counter',
+        'employee_type_code'
     ];
+
+    protected $appends = ['full_name'];
 
 
     public function get_ptkp_status(){
@@ -136,6 +139,23 @@ class Pegawai extends Model
 
     public function get_sanction_historical(){
         return $this->hasMany('App\Model\Tenant\SanctionHistorical', 'employee_id', 'employee_id');
+    }
+
+    public function get_employee_type(){
+        return $this->belongsTo('App\Model\Tenant\EmployeeType','employee_type_code','employee_type_code');
+    }
+
+    public function getFullNameAttribute(){
+        if ($this->middle_name!="" && $this->last_name!=""){
+            return "{$this->first_name} {$this->middle_name} {$this->last_name}";
+        }else if ($this->middle_name!="" && $this->last_name==""){
+            return "{$this->first_name} {$this->middle_name}";
+        }else if ($this->middle_name=="" && $this->last_name!=""){
+            return "{$this->first_name} {$this->last_name}";
+        }else{
+            return "{$this->first_name}";
+        }
+        
     }
 
 }

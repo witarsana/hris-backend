@@ -22,7 +22,6 @@ class ApiTenant
             }
             
         }
-
         return redirect()->route('needlogin');
         
     }

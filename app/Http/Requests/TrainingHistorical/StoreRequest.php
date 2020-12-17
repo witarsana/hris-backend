@@ -35,7 +35,7 @@ class StoreRequest extends FormRequest
             "instructor" =>["max:100"],
             "certification_type" =>["max:50"],
             "start_date" =>["required","date"],
-            "end_date"=>["required","date"],
+            "end_date"=>["required","date","after:start_date"],
             "pre_test_score" => ["max:50"],
             "post_test_score" => ["max:50"],
             "standard_score"=> ["max:50"],
@@ -53,7 +53,7 @@ class StoreRequest extends FormRequest
         
         throw new HttpResponseException(
             response()->json(
-                ['success' => false,'message'=>500,'data' => $errors], JsonResponse::HTTP_UNPROCESSABLE_ENTITY)
+                ['success' => false,'message'=>500,'data' => $errors], JsonResponse::HTTP_ACCEPTED)
         );
     }
 }

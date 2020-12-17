@@ -2,15 +2,17 @@
 
 use Illuminate\Http\Request;
 
+Route::get('/companyaccess','CompanyController@companyAccess');
 
 //for unauthorized route
 Route::get('/',function(){
+    //return bcrypt('mahpati');
     $res = [
         "status"  => false,
         "message" => 401,
         "data"    => "Unauthorized"
     ];
-    return response()->json($res);   
+    return response()->json($res,401);   
 })->name('unauthorized');
 
 //route for thoose who pass oauth 
@@ -22,7 +24,7 @@ Route::middleware('auth:api')->group(function () {
             "message" => 404,
             "data"    => "Unregistered Company"
         ];
-        return response()->json($res);
+        return response()->json($res,401);
     })->name('unregistered');
 
     Route::get('/needlogin',function(){
@@ -31,7 +33,7 @@ Route::middleware('auth:api')->group(function () {
             "message" => 401,
             "data"    => "Login required"
         ];
-        return response()->json($res);
+        return response()->json($res,401);
     })->name('needlogin');
 
     #ROUTE FOR LOGIN
@@ -66,6 +68,7 @@ Route::middleware('auth:api')->group(function () {
             Route::post('/pegawai','Api\PegawaiController@store');
             Route::post('/pegawai/{id}/update','Api\PegawaiController@update');
             Route::delete('/pegawai/{id}','Api\PegawaiController@destroy');
+            Route::post('/pegawai/checkvalidate','Api\PegawaiController@checkValidate');
 
             #ROUTE FOR EDUCATION
             Route::get('/education','Api\EducationController@index');
@@ -177,11 +180,21 @@ Route::middleware('auth:api')->group(function () {
 
              #ROUTE ORGANIZATION MASTER DATA 
              Route::get('/organizationmasterdata','Api\OrganizationMasterDataController@index');
+             Route::get('/organizationmasterdata_dynamic_org/{selected}','Api\OrganizationMasterDataController@generateDynamicOrganizationData');
              Route::get('/organizationmasterdata/filter','Api\OrganizationMasterDataController@listFilterAndPagine');
              Route::get('/organizationmasterdata/{id}','Api\OrganizationMasterDataController@show');
              Route::post('/organizationmasterdata','Api\OrganizationMasterDataController@store');
              Route::post('/organizationmasterdata/{id}/update','Api\OrganizationMasterDataController@update');
              Route::delete('/organizationmasterdata/{id}','Api\OrganizationMasterDataController@destroy');
+             
+
+             #ROUTE LEVEL 
+             Route::get('/organizationlevel','Api\organizationlevelController@index');
+             Route::get('/organizationlevel/filter','Api\organizationlevelController@listFilterAndPagine');
+             Route::get('/organizationlevel/{id}','Api\organizationlevelController@show');
+             Route::post('/organizationlevel','Api\organizationlevelController@store');
+             Route::post('/organizationlevel/{id}/update','Api\organizationlevelController@update');
+             Route::delete('/organizationlevel/{id}','Api\organizationlevelController@destroy');
 
              #ROUTE SALARY MASTER DATA
              Route::get('/salarymasterdata','Api\SalaryMasterDataController@index');
@@ -215,6 +228,138 @@ Route::middleware('auth:api')->group(function () {
              Route::post('/attendance/{id}/update','Api\AttendanceController@update');
              Route::delete('/attendance/{id}','Api\AttendanceController@destroy');
 
+             #WORKSHIFT MASTER DATA
+             Route::get('/workshiftmasterdata','Api\WorkshiftMasterDataController@index');
+             Route::get('/workshiftmasterdata/filter','Api\WorkshiftMasterDataController@listFilterAndPagine');
+             Route::get('/workshiftmasterdata/{id}','Api\WorkshiftMasterDataController@show');
+             Route::post('/workshiftmasterdata','Api\WorkshiftMasterDataController@store');
+             Route::post('/workshiftmasterdata/{id}/update','Api\WorkshiftMasterDataController@update');
+             Route::delete('/workshiftmasterdata/{id}','Api\WorkshiftMasterDataController@destroy');
+
+             #WORKSHIFT CHANGE
+             Route::get('/workshiftchange','Api\WorkshiftChangeController@index');
+             Route::get('/workshiftchange/filter','Api\WorkshiftChangeController@listFilterAndPagine');
+             Route::get('/workshiftchange/{id}','Api\WorkshiftChangeController@show');
+             Route::post('/workshiftchange','Api\WorkshiftChangeController@store');
+             Route::post('/workshiftchange/{id}/update','Api\WorkshiftChangeController@update');
+             Route::delete('/workshiftchange/{id}','Api\WorkshiftChangeController@destroy');
+
+             #SPL HEADER
+             Route::get('/splheader','Api\SplHeaderController@index');
+             Route::get('/splheader/filter','Api\SplHeaderController@listFilterAndPagine');
+             Route::get('/splheader/{id}','Api\SplHeaderController@show');
+             Route::post('/splheader','Api\SplHeaderController@store');
+             Route::post('/splheader/{id}/update','Api\SplHeaderController@update');
+             Route::post('/splheader/{id}/approval','Api\SplHeaderController@approval');
+             Route::delete('/splheader/{id}','Api\SplHeaderController@destroy');
+
+             #SPL DETAIL
+             Route::get('/spldetail','Api\SplDetailController@index');
+             Route::get('/spldetail/filter','Api\SplDetailController@listFilterAndPagine');
+             Route::get('/spldetail/{id}','Api\SplDetailController@show');
+             Route::post('/spldetail','Api\SplDetailController@store');
+             Route::post('/spldetail/{id}/update','Api\SplDetailController@update');
+             Route::post('/spldetail/{id}/approval','Api\SplDetailController@approval');
+             Route::delete('/spldetail/{id}','Api\SplDetailController@destroy');
+
+             #IREGULAR INCOME
+             Route::get('/iregularincome','Api\IregularIncomeController@index');
+             Route::get('/iregularincome/filter','Api\IregularIncomeController@listFilterAndPagine');
+             Route::get('/iregularincome/{id}','Api\IregularIncomeController@show');
+             Route::post('/iregularincome','Api\IregularIncomeController@store');
+             Route::post('/iregularincome/{id}/update','Api\IregularIncomeController@update');
+             Route::post('/iregularincome/{id}/approval','Api\IregularIncomeController@approval');
+             Route::delete('/iregularincome/{id}','Api\IregularIncomeController@destroy');
+
+             #IREGULAR DEDUCTION
+             Route::get('/iregulardeduction','Api\IregularDeductionController@index');
+             Route::get('/iregulardeduction/filter','Api\IregularDeductionController@listFilterAndPagine');
+             Route::get('/iregulardeduction/{id}','Api\IregularDeductionController@show');
+             Route::post('/iregulardeduction','Api\IregularDeductionController@store');
+             Route::post('/iregulardeduction/{id}/update','Api\IregularDeductionController@update');
+             Route::post('/iregulardeduction/{id}/approval','Api\IregularDeductionController@approval');
+             Route::delete('/iregulardeduction/{id}','Api\IregularDeductionController@destroy');
+
+             #NATIONAL HOLIDAY
+             Route::get('/nationalholiday','Api\NationalHolidayController@index');
+             Route::get('/nationalholiday/filter','Api\NationalHolidayController@listFilterAndPagine');
+             Route::get('/nationalholiday/{id}','Api\NationalHolidayController@show');
+             Route::post('/nationalholiday','Api\NationalHolidayController@store');
+             Route::post('/nationalholiday/{id}/update','Api\NationalHolidayController@update');
+             Route::post('/nationalholiday/{id}/approval','Api\NationalHolidayController@approval');
+             Route::delete('/nationalholiday/{id}','Api\NationalHolidayController@destroy');
+
+             #MEDICAL CLAIM EMPLOYEE
+             Route::get('/medicalclaimemployee','Api\MedicalClaimEmployeeController@index');
+             Route::get('/medicalclaimemployee/filter','Api\MedicalClaimEmployeeController@listFilterAndPagine');
+             Route::get('/medicalclaimemployee/{id}','Api\MedicalClaimEmployeeController@show');
+             Route::post('/medicalclaimemployee','Api\MedicalClaimEmployeeController@store');
+             Route::post('/medicalclaimemployee/{id}/update','Api\MedicalClaimEmployeeController@update');
+             Route::post('/medicalclaimemployee/{id}/approval','Api\MedicalClaimEmployeeController@approval');
+             Route::delete('/medicalclaimemployee/{id}','Api\MedicalClaimEmployeeController@destroy');
+
+             #MEDICAL CHECK UP EMPLOYEE
+             Route::get('/medicalcheckupemployee','Api\MedicalCheckUpEmployeeController@index');
+             Route::get('/medicalcheckupemployee/filter','Api\MedicalCheckUpEmployeeController@listFilterAndPagine');
+             Route::get('/medicalcheckupemployee/{id}','Api\MedicalCheckUpEmployeeController@show');
+             Route::post('/medicalcheckupemployee','Api\MedicalCheckUpEmployeeController@store');
+             Route::post('/medicalcheckupemployee/{id}/update','Api\MedicalCheckUpEmployeeController@update');
+             Route::post('/medicalcheckupemployee/{id}/approval','Api\MedicalCheckUpEmployeeController@approval');
+             Route::delete('/medicalcheckupemployee/{id}','Api\MedicalCheckUpEmployeeController@destroy');
+
+             #LOAN EMPLOYEE
+             Route::get('/loanemployee','Api\LoanEmployeeController@index');
+             Route::get('/loanemployee/filter','Api\LoanEmployeeController@listFilterAndPagine');
+             Route::get('/loanemployee/{id}','Api\LoanEmployeeController@show');
+             Route::post('/loanemployee','Api\LoanEmployeeController@store');
+             Route::post('/loanemployee/{id}/update','Api\LoanEmployeeController@update');
+             Route::post('/loanemployee/{id}/approval','Api\LoanEmployeeController@approval');
+             Route::delete('/loanemployee/{id}','Api\LoanEmployeeController@destroy');
+
+             #LOAN INSTALLMENTS HISTORY
+             Route::get('/loaninstallmentshistory','Api\LoanInstallmentsHistoryController@index');
+             Route::get('/loaninstallmentshistory/filter','Api\LoanInstallmentsHistoryController@listFilterAndPagine');
+             Route::get('/loaninstallmentshistory/{id}','Api\LoanInstallmentsHistoryController@show');
+             Route::post('/loaninstallmentshistory','Api\LoanInstallmentsHistoryController@store');
+             Route::post('/loaninstallmentshistory/{id}/update','Api\LoanInstallmentsHistoryController@update');
+             Route::post('/loaninstallmentshistory/{id}/approval','Api\LoanInstallmentsHistoryController@approval');
+             Route::delete('/loaninstallmentshistory/{id}','Api\LoanInstallmentsHistoryController@destroy');
+
+             #SETTING HEADER
+             Route::get('/settingheader','Api\SettingHeaderController@index');
+             Route::get('/settingheader/filter','Api\SettingHeaderController@listFilterAndPagine');
+             Route::get('/settingheader/{id}','Api\SettingHeaderController@show');
+             Route::post('/settingheader','Api\SettingHeaderController@store');
+             Route::post('/settingheader/{id}/update','Api\SettingHeaderController@update');
+             Route::post('/settingheader/{id}/approval','Api\SettingHeaderController@approval');
+             Route::delete('/settingheader/{id}','Api\SettingHeaderController@destroy');
+
+             #SETTING DETAIL
+             Route::get('/settingdetail','Api\SettingDetailController@index');
+             Route::get('/settingdetail/filter','Api\SettingDetailController@listFilterAndPagine');
+             Route::get('/settingdetail/{id}','Api\SettingDetailController@show');
+             Route::post('/settingdetail','Api\SettingDetailController@store');
+             Route::post('/settingdetail/{id}/update','Api\SettingDetailController@update');
+             Route::post('/settingdetail/{id}/approval','Api\SettingDetailController@approval');
+             Route::delete('/settingdetail/{id}','Api\SettingDetailController@destroy');
+
+             
+             #SALARY EMPLOYEE
+             Route::get('/salaryemployee','Api\SalaryEmployeeController@index');
+             Route::get('/salaryemployee/filter','Api\SalaryEmployeeController@listFilterAndPagine');
+             Route::get('/salaryemployee/{id}','Api\SalaryEmployeeController@show');
+             Route::post('/salaryemployee','Api\SalaryEmployeeController@store');
+             Route::post('/salaryemployee/{id}/update','Api\SalaryEmployeeController@update');
+             Route::post('/salaryemployee/{id}/approval','Api\SalaryEmployeeController@approval');
+             Route::delete('/salaryemployee/{id}','Api\SalaryEmployeeController@destroy');
+
+            #ROUTE FOR EMPLOYEE TYPE
+            Route::get('/employeetype','Api\EmployeeTypeController@index');
+            Route::get('/employeetype/filter','Api\EmployeeTypeController@listFilterAndPagine');
+            Route::get('/employeetype/{id}','Api\EmployeeTypeController@show');
+            Route::post('/employeetype','Api\EmployeeTypeController@store');
+            Route::post('/employeetype/{id}/update','Api\EmployeeTypeController@update');
+            Route::delete('/employeetype/{id}','Api\EmployeeTypeController@destroy');
         });
     });
 });

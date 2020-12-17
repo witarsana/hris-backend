@@ -35,7 +35,7 @@ class StoreRequest extends FormRequest
             "last_name"   => ['max:100'],
             "alias_name"  => ['max:100'],
             "kode_status_ptkp" => ['required'],
-            "kode_tarif_jamsostek" => ['required'],
+            // "kode_tarif_jamsostek" => ['required'],
             "join_date" => ["required","date"],
             "resign_date"=> ["date"],
             "contract_begin_date" => ["required","date"],
@@ -57,17 +57,17 @@ class StoreRequest extends FormRequest
             "birth_date" => ["required","date"],
             "gender" => ["required","max:50"],
             "citizen" => ["required","max:20"],
-            "religion" => ["required","max:50"],
+            "religion" => ["max:50"],
             "marital_status" => ["required","max:50"],
             "number_of_dependents" => ["required","integer"],
             "salary_tax_type" => ["required","integer"],
-            "ptkp_status" => ["required"],
-            "saldo_pendapatan" => ['required','numeric'],
-            "saldo_pajak" => ["required","numeric"],
+            "ptkp_status" => ["max:50"],
+            "saldo_pendapatan" => ['numeric'],
+            "saldo_pajak" => ["numeric"],
             "salary_month_begin" => ["required","integer"],
             "salary_month_end" => ["required","integer"],
             "overtime_status" => ["required","integer"],
-            "shift_status" => ["required","integer"],
+            "shift_code" => ["required","max:50"],
             "npwp_number" => ["max:50"],
             "npwp_activation_date" => ["date"],
             "npwp_status" => ["integer"],
@@ -78,13 +78,13 @@ class StoreRequest extends FormRequest
             "pension_active_date" => ["date"],
             "pension_status" => ["integer"],
             "address_1" => ["required"],
-            "sub_district_1" => ["required","max:100"],
-            "district_1" => ["required","max:100"],
-            "city_1" => ["required","max:100"],
-            "province_1" => ["required","max:100"],
+            "sub_district_1" => ["max:100"],
+            "district_1" => ["max:100"],
+            "city_1" => ["max:100"],
+            "province_1" => ["max:100"],
             "country_1" => ["required","max:100"],
-            "phone_number_1" => ["required","max:20"],
-            "postal_code_1" => ["required","max:10"],
+            "phone_number_1" => ["max:20"],
+            "postal_code_1" => ["max:10"],
             "sub_district_2" => ["max:100"],
             "district_2" => ["max:100"],
             "city_2" => ["max:100"],
@@ -92,8 +92,8 @@ class StoreRequest extends FormRequest
             "country_2" => ["max:100"],
             "phone_number_2" => ["max:20"],
             "postal_code_2" => ["max:10"],
-            "ktp_number" => ["required","max:50"],
-            "ktp_validity_period" => ["required","date"],
+            "ktp_number" => ["max:50"],
+            "ktp_validity_period" => ["date"],
             "sim_a_number" => ["max:50"],
             "sim_a_validity_period" => ["date"],
             "sim_c_number" => ["max:50"],
@@ -103,14 +103,15 @@ class StoreRequest extends FormRequest
             "blood_type" => ["max:50"],
             "eployee_photo_file" => ['mimes:jpeg,bmp,png'],
             "leave_status" => ["integer"],
-            "remaining_day_off_1" => ["required","numeric"],
-            "remaining_day_off_2" => ["required","numeric"],
+            "remaining_day_off_1" => ["numeric"],
+            "remaining_day_off_2" => ["numeric"],
             "new_employee_id" => ["integer"],
             "resign_reason" => ["max:255"],
             "fingerprint_id" => ["max:50"],
             "first_employee_id" => ["max:50"],
-            "contract_counter" => ["integer"]
-
+            "contract_counter" => ["integer"],
+            "employee_type_code" => ["required","max:50"],
+            "organization_code" => ["required","max:50"]
         ];
         
     }
@@ -121,7 +122,7 @@ class StoreRequest extends FormRequest
         
         throw new HttpResponseException(
             response()->json(
-                ['success' => false,'message'=>500,'data' => $errors], JsonResponse::HTTP_UNPROCESSABLE_ENTITY)
+                ['success' => false,'message'=>500,'data' => $errors], JsonResponse::HTTP_ACCEPTED)
         );
     }
 

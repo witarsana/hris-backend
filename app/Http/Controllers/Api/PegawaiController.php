@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Api;
 
 use App\Model\Tenant\Pegawai;
+use App\Model\Tenant\EmployeeOrganization;
+use App\Model\Tenant\SalaryEmployee;
 use App\Model\Main\Company;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -10,6 +12,8 @@ use App\Http\Requests\Pegawai\StoreRequest;
 use App\Http\Requests\Pegawai\UpdateRequest;
 use Ramsey\Uuid\Uuid;
 use File;
+use Validator;
+use Illuminate\Http\JsonResponse;
 
 class PegawaiController extends Controller
 {
@@ -18,7 +22,7 @@ class PegawaiController extends Controller
     {    
          
         try{
-            $lsPegawai = Pegawai::with('get_ptkp_status','get_bpjs_rate')->get();
+            $lsPegawai = Pegawai::with('get_ptkp_status','get_bpjs_rate','get_employee_type')->get();
             
             return $this->sendResponse($lsPegawai, $this->successStatus);
         }catch (\Exception $e){
@@ -33,7 +37,7 @@ class PegawaiController extends Controller
         $count = $request->count;
         try{
             if (strlen($filter)>0){
-                $lsPegawai = Pegawai::with('get_ptkp_status','get_bpjs_rate')
+                $lsPegawai = Pegawai::with('get_ptkp_status','get_bpjs_rate','get_employee_type')
                             ->where('employee_id', 'like', '%' . $filter . '%')
                             ->orWhere('first_name', 'like', '%' . $filter . '%')
                             ->orWhere('middle_name', 'like', '%' . $filter . '%')
@@ -72,7 +76,7 @@ class PegawaiController extends Controller
                             ->orWhere('salary_month_begin', 'like', '%' . $filter . '%')
                             ->orWhere('salary_month_end', 'like', '%' . $filter . '%')
                             ->orWhere('overtime_status', 'like', '%' . $filter . '%')
-                            ->orWhere('shift_status', 'like', '%' . $filter . '%')
+                            ->orWhere('shift_code', 'like', '%' . $filter . '%')
                             ->orWhere('npwp_number', 'like', '%' . $filter . '%')
                             ->orWhere('npwp_activation_date', 'like', '%' . $filter . '%')
                             ->orWhere('npwp_status', 'like', '%' . $filter . '%')
@@ -119,7 +123,7 @@ class PegawaiController extends Controller
 
                             ->paginate($count);
             }else{
-                $lsPegawai = Pegawai::with('get_ptkp_status','get_bpjs_rate')->paginate($count);
+                $lsPegawai = Pegawai::with('get_ptkp_status','get_bpjs_rate','get_employee_type')->paginate($count);
             }
             
             
@@ -133,7 +137,8 @@ class PegawaiController extends Controller
     {   
         try {
             //find the company name, so it can store image on the right directory
-            list($companyName) = explode('.', $request->getHost(), 2);
+            //list($companyName) = explode('.', $request->getHost(), 2);
+            $companyName = $request->user()->company_name;
             $company = Company::where("company_name",$companyName)->first();
 
             //files            
@@ -193,7 +198,7 @@ class PegawaiController extends Controller
             $oPegawai->salary_month_begin= $request->salary_month_begin;
             $oPegawai->salary_month_end= $request->salary_month_end;
             $oPegawai->overtime_status= $request->overtime_status;
-            $oPegawai->shift_status= $request->shift_status;
+            $oPegawai->shift_code= $request->shift_code;
             $oPegawai->npwp_number= $request->npwp_number;
             $oPegawai->npwp_activation_date= $request->npwp_activation_date;
             $oPegawai->npwp_status= $request->npwp_status;
@@ -241,8 +246,53 @@ class PegawaiController extends Controller
             $oPegawai->fingerprint_id= $request->fingerprint_id;
             $oPegawai->first_employee_id= $request->first_employee_id;
             $oPegawai->contract_counter= $request->contract_counter;
+            $oPegawai->employee_type_code = $request->employee_type_code;
+
 
             $oPegawai->save();
+
+           /* //save to employee organization 
+            $oEmployeeOrganization = new EmployeeOrganization();
+            $oEmployeeOrganization->employee_id = $request->employee_id;
+            $oEmployeeOrganization->org_code = $request->organization_code;
+            $oEmployeeOrganization->user_input = $request->get('userLoginId');
+            $oEmployeeOrganization->user_edit = $request->get('userLoginId');
+            $oEmployeeOrganization->save();*/
+            
+            //save to salary employee
+            $salaryEmployeeArr = $request->salary_employee;
+            
+            for ($x=0;$x<count($salaryEmployeeArr);$x++){
+                $oSalaryEmployee = new SalaryEmployee();
+                $oSalaryEmployee->employee_id = $request->employee_id;
+                $oSalaryEmployee->salary_code = $salaryEmployeeArr[$x]['salary_code'];
+                $oSalaryEmployee->amount = $salaryEmployeeArr[$x]['amount'];
+                $oSalaryEmployee->description = $salaryEmployeeArr[$x]['description'];
+                $oSalaryEmployee->user_input = $request->get('userLoginId');
+                $oSalaryEmployee->user_edit = $request->get('userLoginId');
+                $oSalaryEmployee->save();
+            }
+
+            //save to employee organization
+            $organization_employeeArr = $request->organization_employee;
+            $oganization_employee_dataArr = $request->oganization_employee_data;
+
+            for ($x=0;$x<count($organization_employeeArr);$x++){
+                $oEmployeeOrganization = new EmployeeOrganization();
+
+                $oEmployeeOrganization->employee_id =$request->employee_id;
+                $oEmployeeOrganization->org_level_code = $organization_employeeArr[$x];
+                if($oganization_employee_dataArr[$x] == "") $oganization_employee_dataArr[$x] = "-";
+                $oEmployeeOrganization->org_code = $oganization_employee_dataArr[$x];
+                $oEmployeeOrganization->user_input = $request->get('userLoginId');
+                $oEmployeeOrganization->user_edit = $request->get('userLoginId');
+                $oEmployeeOrganization->save();
+            }
+            
+            
+
+           
+            
 
             return $this->sendResponse($oPegawai, $this->successStatus);
 
@@ -260,7 +310,7 @@ class PegawaiController extends Controller
     {
         
         try{
-            $oPegawai = Pegawai::with('get_ptkp_status','get_bpjs_rate','get_education','get_family','get_job_history','get_position_history','get_historical_training.training_type','get_historical_salary','get_historical_leaves','get_sanction_historical')->find($id);
+            $oPegawai = Pegawai::with('get_ptkp_status','get_bpjs_rate','get_education','get_family','get_job_history','get_position_history','get_historical_training.training_type','get_historical_salary','get_historical_leaves','get_sanction_historical','get_employee_type')->find($id);
 
             if ($oPegawai) {
                 return $this->sendResponse($oPegawai, $this->successStatus);
@@ -280,7 +330,8 @@ class PegawaiController extends Controller
 
             if ($oPegawai) {
                 //find the company name, so it can store image on the right directory
-                list($companyName) = explode('.', $request->getHost(), 2);
+                //list($companyName) = explode('.', $request->getHost(), 2);
+                $companyName = $request->user()->company_name;
                 $company = Company::where("company_name",$companyName)->first();
 
                 //files            
@@ -344,7 +395,7 @@ class PegawaiController extends Controller
                 $oPegawai->salary_month_begin= $request->salary_month_begin;
                 $oPegawai->salary_month_end= $request->salary_month_end;
                 $oPegawai->overtime_status= $request->overtime_status;
-                $oPegawai->shift_status= $request->shift_status;
+                $oPegawai->shift_code= $request->shift_code;
                 $oPegawai->npwp_number= $request->npwp_number;
                 $oPegawai->npwp_activation_date= $request->npwp_activation_date;
                 $oPegawai->npwp_status= $request->npwp_status;
@@ -390,7 +441,7 @@ class PegawaiController extends Controller
                 $oPegawai->fingerprint_id= $request->fingerprint_id;
                 $oPegawai->first_employee_id= $request->first_employee_id;
                 $oPegawai->contract_counter= $request->contract_counter;
-
+                $oPegawai->employee_type_code = $request->employee_type_code;
                 $oPegawai->save();
 
                 return $this->sendResponse($oPegawai, $this->successStatus);
@@ -420,14 +471,16 @@ class PegawaiController extends Controller
     }
 
     public function photoId(Request $request,$id){
-        list($companyName) = explode('.', $request->getHost(), 2);
+        //list($companyName) = explode('.', $request->getHost(), 2);
+        $companyName = $request->user()->company_name;
         $company = Company::where("company_name",$companyName)->first();
         $path = public_path()."/".$company->company_name."/".$id."";
         return response()->download($path);
     }
 
     public function photoByObject(Request $request,$id){
-        list($companyName) = explode('.', $request->getHost(), 2);
+        //list($companyName) = explode('.', $request->getHost(), 2);
+        $companyName = $request->user()->company_name;
         $company = Company::where("company_name",$companyName)->first();
 
         try{
@@ -436,6 +489,7 @@ class PegawaiController extends Controller
             if ($oPegawai) {
                 $path = public_path()."/".$company->company_name."/".$oPegawai->eployee_photo_file."";
                 return response()->download($path);
+                //echo $path;
             }else{
                 return $this->sendError(404, ['error'=> 'Pegawai does not exist.']);
             }
@@ -443,5 +497,94 @@ class PegawaiController extends Controller
             return $this->sendError(500, ['error'=> $e]);
         }
         
+    }
+
+    public function checkValidate(Request $request){
+        
+        $step = $request->step;
+
+        switch($step){
+            case 1 :
+                $validator = Validator::make($request->all(), [
+                    'employee_id' => 'required|unique:tenant.pegawai|max:50',
+                    'first_name' => 'required|max:100',
+                    'middle_name' => 'max:100',
+                    'last_name' => 'max:100',
+                    'alias_name' => 'max:100',
+                    'join_date' => 'required|date',
+                    'employee_type_code' => 'required|max:50',
+                    'contract_begin_date' => 'required|date',
+                    'contract_end_date' => 'required|date',
+                    'pkwt_number' => 'required|max:50',
+                    'fingerprint_id' => 'max:50',
+                    'shift_code' => 'required|max:50',
+                    'organization_code' => 'required'
+
+                ]);
+                if ($validator->fails()) {
+                    return $this->sendError(500, ['error'=> $validator->errors()]);                  
+                }else{
+                    return $this->sendError(200, ['error'=> $validator->errors()]);
+                }
+            break;
+            case 2 : 
+                $validator = Validator::make($request->all(), [
+                    'handphone_number' => 'required|max:50',
+                    'phone_number_1' => 'max:20',
+                    'email_1' =>'required|email',
+                    'country_1' => 'required|max:100',
+                    'province_1' => 'max:100',
+                    'city_1' => 'max:100',
+                    'district_1' => 'max:100',
+                    'sub_district_1' => 'max:100',
+                    'address_1' =>'required',
+                    'postal_code_1' => 'max:10'
+                ]);
+                if ($validator->fails()) {
+                    return $this->sendError(500, ['error'=> $validator->errors()]);                  
+                }else{
+                    return $this->sendError(200, ['error'=> $validator->errors()]);
+                }
+            break;
+            case 3 : 
+                $validator = Validator::make($request->all(), [
+                    'birth_place' => 'required|max:50',
+                    'birth_date' => 'required|date',
+                    'gender' => 'required|max:50',
+                    'citizen' => 'required|max:20',
+                    'religion' => 'max:50',
+                    'marital_status' => 'required|max:50',
+                    'number_of_dependents' => 'required|integer',
+                    'bank_name_1' => 'required|max:50',
+                    'bank_account_name_1' => 'required|max:50',
+                    'bank_account_number_1' => 'required|max:50',
+                    'bank_branch_name_1' => 'required|max:50'
+                ]);
+                if ($validator->fails()) {
+                    return $this->sendError(500, ['error'=> $validator->errors()]);                  
+                }else{
+                    return $this->sendError(200, ['error'=> $validator->errors()]);
+                }
+            break;
+            case 5: 
+                $validator = Validator::make($request->all(), [
+                    'kode_status_ptkp' => 'required',
+                    'salary_tax_type' => 'required|integer',
+                    'npwp_status' => 'required|integer',
+                    'salary_month_begin' => 'required|integer',
+                    'salary_month_end' => 'required|integer',
+                    'saldo_pendapatan' => 'numeric',
+                    'saldo_pajak' => 'numeric',
+                    'overtime_status' => 'required|integer',
+                    'bpjs_status' => 'required|integer',
+                ]);
+                if ($validator->fails()) {
+                    return $this->sendError(500, ['error'=> $validator->errors()]);                  
+                }else{
+                    return $this->sendError(200, ['error'=> $validator->errors()]);
+                }
+            break;
+        }
+
     }
 }

@@ -18,6 +18,7 @@ class CreateOrganizationMasterDataTable extends Migration
             $table->string("org_code",50);
             $table->string("org_name",100);
             $table->string("dependent_to",50)->nullable();
+            $table->string("org_level_code",50);
             $table->enum('dependent_status', ['dependant', 'not dependant']);
             $table->enum('mandatory_status', ['mandatory', 'not mandatory']);
             $table->enum('user_management_status', ['related', 'not related']);
